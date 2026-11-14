@@ -25,7 +25,7 @@ CFG_PATH = ROOT / "config.yaml"
 LOCAL = ROOT / ".jobwave-local.json"     # tracker + settings; gitignored, never leaves the laptop
 PAGE = Path(__file__).with_name("ui.html")
 KEEP = ("id", "source", "company", "title", "url", "locations", "remote", "posted_at", "families", "level",
-        "class_match", "sponsorship", "salary_min", "salary_max", "skills", "preferred_location", "score", "yoe")
+        "class_match", "sponsorship", "salary_min", "salary_max", "skills", "preferred_location", "score", "yoe", "target")
 
 
 class App:
@@ -63,13 +63,12 @@ class App:
         def work():
             try:
                 cfg = self.cfg()
-                from .__main__ import dedupe
+                from .__main__ import dedupe, match
                 raw, health = fetch_all(cfg)
                 seen = set(self.local.get("seen", []))
                 first = not seen
                 out = []
-                for j in dedupe(raw):
-                    ok, _, enr = evaluate(j, cfg)
+                for j, ok, _, enr in match(dedupe(raw), cfg, ROOT / ".jobwave-pages.json"):
                     if ok:
                         j.update(enr)
                         row = {k: j.get(k) for k in KEEP}
@@ -98,6 +97,8 @@ class App:
         return {"matches": self.matches, "meta": self.meta, "checking": self.checking, "error": self.error,
                 "tracker": self.local.get("tracker", {}), "config": cfg,
                 "topic_set": bool(self.topic()), "topic_from_env": bool(os.getenv("NTFY_TOPIC")),
+                # Only served to this laptop (localhost); lets the page listen for alerts live.
+                "topic": self.topic(), "ntfy_server": os.getenv("NTFY_SERVER", "https://ntfy.sh"),
                 "git": (ROOT / ".git").exists()}
 
     def track(self, body):
