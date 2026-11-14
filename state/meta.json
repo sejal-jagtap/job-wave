@@ -1,48 +1,48 @@
 {
- "last_run": 1794598727.5936804,
- "duration_s": 5.6,
- "fetched": 13926,
- "unique": 13492,
- "matched": 477,
- "new_this_run": 0,
- "first_run": true,
+ "last_run": 1794614915.8362238,
+ "duration_s": 22.8,
+ "fetched": 18858,
+ "unique": 18152,
+ "matched": 510,
+ "new_this_run": 17,
+ "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   11145
+   15250
   ],
   [
    "excluded keyword / seniority",
-   898
+   1260
   ],
   [
    "not entry level",
-   306
+   405
+  ],
+  [
+   "non-US",
+   168
   ],
   [
    "degree",
    167
   ],
   [
-   "non-US",
-   142
-  ],
-  [
    "internship",
-   89
+   100
   ],
   [
    "5+",
-   82
+   94
   ],
   [
    "3+",
-   48
+   55
   ],
   [
    "4+",
-   40
+   42
   ],
   [
    "8+",
@@ -50,7 +50,7 @@
   ],
   [
    "7+",
-   20
+   21
   ],
   [
    "10+",
@@ -58,7 +58,7 @@
   ],
   [
    "6+",
-   12
+   13
   ],
   [
    "PhD role",
@@ -87,61 +87,99 @@
   [
    "9+",
    1
+  ],
+  [
+   "US citizenship required",
+   1
   ]
  ],
- "sources_ok": 47,
- "sources_failed": [
-  "lever:plaid"
- ],
+ "sources_ok": 84,
+ "sources_failed": [],
  "health": {
-  "greenhouse:anthropic": 671,
-  "greenhouse:databricks": 905,
-  "greenhouse:scaleai": 171,
-  "greenhouse:stripe": 788,
+  "greenhouse:anthropic": 668,
+  "greenhouse:databricks": 893,
+  "greenhouse:scaleai": 170,
+  "greenhouse:stripe": 786,
   "greenhouse:airbnb": 215,
-  "greenhouse:robinhood": 160,
-  "greenhouse:figma": 143,
+  "greenhouse:robinhood": 165,
+  "greenhouse:figma": 139,
   "greenhouse:datadog": 384,
   "greenhouse:mongodb": 391,
   "greenhouse:cloudflare": 479,
   "greenhouse:coinbase": 265,
-  "greenhouse:pinterest": 166,
-  "greenhouse:instacart": 86,
-  "greenhouse:lyft": 148,
+  "greenhouse:pinterest": 164,
+  "greenhouse:instacart": 85,
+  "greenhouse:lyft": 150,
   "greenhouse:reddit": 145,
-  "greenhouse:discord": 25,
-  "greenhouse:duolingo": 61,
+  "greenhouse:discord": 26,
+  "greenhouse:duolingo": 59,
   "greenhouse:samsara": 313,
-  "greenhouse:roblox": 275,
-  "greenhouse:affirm": 219,
-  "greenhouse:brex": 283,
-  "greenhouse:gusto": 76,
+  "greenhouse:roblox": 271,
+  "greenhouse:affirm": 217,
+  "greenhouse:brex": 286,
+  "greenhouse:gusto": 75,
   "greenhouse:asana": 109,
-  "greenhouse:dropbox": 42,
-  "greenhouse:twilio": 114,
-  "greenhouse:waymo": 376,
-  "greenhouse:nuro": 98,
-  "greenhouse:toast": 351,
-  "greenhouse:chime": 70,
+  "greenhouse:dropbox": 44,
+  "greenhouse:twilio": 115,
+  "greenhouse:waymo": 375,
+  "greenhouse:nuro": 99,
+  "greenhouse:toast": 353,
+  "greenhouse:chime": 71,
   "greenhouse:block": 191,
-  "lever:palantir": 301,
-  "lever:plaid": "error",
+  "greenhouse:gitlab": 251,
+  "greenhouse:okta": 363,
+  "greenhouse:elastic": 400,
+  "greenhouse:squarespace": 17,
+  "greenhouse:sofi": 48,
+  "greenhouse:carta": 78,
+  "greenhouse:flexport": 203,
+  "greenhouse:verkada": 347,
+  "greenhouse:gemini": 28,
+  "greenhouse:vercel": 86,
+  "greenhouse:faire": 71,
+  "greenhouse:lattice": 4,
+  "greenhouse:webflow": 0,
+  "greenhouse:braze": 345,
+  "greenhouse:klaviyo": 146,
+  "greenhouse:fivetran": 197,
+  "greenhouse:cockroachlabs": 13,
+  "greenhouse:pagerduty": 47,
+  "greenhouse:mercury": 79,
+  "greenhouse:betterment": 28,
+  "lever:palantir": 302,
   "lever:spotify": 85,
-  "lever:zoox": 236,
+  "lever:zoox": 239,
   "lever:wealthfront": 21,
-  "ashby:openai": 831,
-  "ashby:cohere": 122,
+  "ashby:openai": 837,
+  "ashby:cohere": 121,
   "ashby:notion": 167,
   "ashby:ramp": 180,
-  "ashby:perplexity": 143,
+  "ashby:perplexity": 141,
   "ashby:linear": 33,
-  "ashby:replit": 31,
-  "ashby:harvey": 375,
+  "ashby:replit": 30,
+  "ashby:harvey": 381,
   "ashby:elevenlabs": 128,
   "ashby:mercor": 91,
   "ashby:sierra": 198,
   "ashby:modal": 43,
-  "simplify:newgrad": 3221
+  "ashby:runway": 3,
+  "ashby:pinecone": 6,
+  "ashby:vanta": 80,
+  "ashby:posthog": 10,
+  "ashby:supabase": 77,
+  "ashby:decagon": 124,
+  "ashby:writer": 45,
+  "workday:Salesforce": 131,
+  "workday:Capital One": 108,
+  "workday:Mastercard": 137,
+  "workday:Intel": 140,
+  "workday:Bank of America": 109,
+  "workday:Fidelity": 103,
+  "workday:PayPal": 127,
+  "workday:Barclays": 136,
+  "jobright:2026-Software-Engineer-New-Grad": 753,
+  "jobright:2026-Business-Analyst-New-Grad": 78,
+  "simplify:newgrad": 3240
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
@@ -174,8 +212,27 @@
   "greenhouse:toast": 0,
   "greenhouse:chime": 0,
   "greenhouse:block": 0,
+  "greenhouse:gitlab": 0,
+  "greenhouse:okta": 0,
+  "greenhouse:elastic": 0,
+  "greenhouse:squarespace": 0,
+  "greenhouse:sofi": 0,
+  "greenhouse:carta": 0,
+  "greenhouse:flexport": 0,
+  "greenhouse:verkada": 0,
+  "greenhouse:gemini": 0,
+  "greenhouse:vercel": 0,
+  "greenhouse:faire": 0,
+  "greenhouse:lattice": 0,
+  "greenhouse:webflow": 0,
+  "greenhouse:braze": 0,
+  "greenhouse:klaviyo": 0,
+  "greenhouse:fivetran": 0,
+  "greenhouse:cockroachlabs": 0,
+  "greenhouse:pagerduty": 0,
+  "greenhouse:mercury": 0,
+  "greenhouse:betterment": 0,
   "lever:palantir": 0,
-  "lever:plaid": 1,
   "lever:spotify": 0,
   "lever:zoox": 0,
   "lever:wealthfront": 0,
@@ -191,6 +248,23 @@
   "ashby:mercor": 0,
   "ashby:sierra": 0,
   "ashby:modal": 0,
+  "ashby:runway": 0,
+  "ashby:pinecone": 0,
+  "ashby:vanta": 0,
+  "ashby:posthog": 0,
+  "ashby:supabase": 0,
+  "ashby:decagon": 0,
+  "ashby:writer": 0,
+  "workday:Salesforce": 0,
+  "workday:Capital One": 0,
+  "workday:Mastercard": 0,
+  "workday:Intel": 0,
+  "workday:Bank of America": 0,
+  "workday:Fidelity": 0,
+  "workday:PayPal": 0,
+  "workday:Barclays": 0,
+  "jobright:2026-Software-Engineer-New-Grad": 0,
+  "jobright:2026-Business-Analyst-New-Grad": 0,
   "simplify:newgrad": 0
  }
 }
