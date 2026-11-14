@@ -921,6 +921,7 @@
           <div class="field"><span class="lbl">Posted within</span>
             <div class="chips" id="ageChips"></div>
           </div>
+          <label class="check"><input type="checkbox" id="fTarget"> ★ Target companies</label>
           <label class="check"><input type="checkbox" id="fPref"> Preferred locations</label>
           <label class="check"><input type="checkbox" id="fRemote"> Remote</label>
           <label class="check"><input type="checkbox" id="fYear"> Mentions class of&nbsp;<span
@@ -992,7 +993,7 @@
     const FAM_KEYS = { data_science: "Data Science", ml_ai: "ML / AI", data_engineering: "Data Engineering", analytics: "Analytics / BI", research: "Research" };
     const STATUSES = [["saved", "Saved"], ["applied", "Applied"], ["interviewing", "Interviewing"], ["offer", "Offer"], ["rejected", "Closed"]];
     let S = { matches: [], meta: {}, tracker: {}, config: null };
-    let V = { q: "", lvl: "all", fams: [], age: 7, pref: false, remote: false, year: false, pay: false, hideTracked: true, sort: "new", limit: 50 };
+    let V = { q: "", target: false, lvl: "all", fams: [], age: 7, pref: false, remote: false, year: false, pay: false, hideTracked: true, sort: "new", limit: 50 };
     let formDirty = false;
 
     const api = async (path, body) => {
@@ -1034,7 +1035,7 @@
       if ($("#v-tracker").classList.contains("on")) drawBoard();
       if (S.checking && !polling) polling = setInterval(async () => { const was = S.checking; await load(); if (was && !S.checking) { clearInterval(polling); polling = null; toast(`Check done: ${S.meta.matched} matches, ${S.meta.new} new.`); } }, 2000);
     }
-    const countSources = () => { const s = S.config?.sources || {}; return ["greenhouse", "lever", "ashby", "workday", "jobright"].reduce((n, k) => n + (s[k] || []).length, 0) + (s.simplify_newgrad ? 1 : 0); };
+    const countSources = () => { const s = S.config?.sources || {}; return ["greenhouse", "lever", "ashby", "workday", "smartrecruiters", "jobright"].reduce((n, k) => n + (s[k] || []).length, 0) + (s.simplify_newgrad ? 1 : 0) + (s.amazon ? 1 : 0); };
 
     function drawStats() {
       const m = S.meta || {}, js = S.matches;
@@ -1058,7 +1059,7 @@
       chips($("#lvlChips"), [["All", "all"], ["New grad", "new"], ["Experienced", "exp"]], v => V.lvl === v, v => V.lvl = v);
       chips($("#ageChips"), [["24h", 1], ["3d", 3], ["7d", 7], ["30d", 30], ["All", 9999]], v => V.age == v, v => V.age = +v);
     }
-    [["#fPref", "pref"], ["#fRemote", "remote"], ["#fYear", "year"], ["#fPay", "pay"], ["#fHideTracked", "hideTracked"]].forEach(([id, key]) => $(id).onchange = e => { V[key] = e.target.checked; V.limit = 50; drawList(); });
+    [["#fTarget", "target"], ["#fPref", "pref"], ["#fRemote", "remote"], ["#fYear", "year"], ["#fPay", "pay"], ["#fHideTracked", "hideTracked"]].forEach(([id, key]) => $(id).onchange = e => { V[key] = e.target.checked; V.limit = 50; drawList(); });
     $("#q").oninput = e => { V.q = e.target.value; V.limit = 50; drawList(); };
     $("#sort").onchange = e => { V.sort = e.target.value; drawList(); };
 
@@ -1069,6 +1070,7 @@
         if (V.lvl === "new" && j.level !== "New grad") return false;
         if (V.lvl === "exp" && !(j.level || "").startsWith("Experienced")) return false;
         if (Date.now() - posted(j) > V.age * DAY) return false;
+        if (V.target && !j.target) return false;
         if (V.pref && !j.preferred_location) return false;
         if (V.remote && !j.remote) return false;
         if (V.year && !j.class_match) return false;
@@ -1086,6 +1088,7 @@
       const p = pay(j), t = S.tracker[j.id]?.status, locs = j.locations || [];
       const tags = [
         j.is_new ? `<span class="tag new">NEW</span>` : "",
+        j.target ? `<span class="tag" style="background:#fff4d6;color:#8a5a00;font-weight:700">★ ${esc(j.target)}</span>` : "",
         j.level === "New grad" ? `<span class="tag ng">New grad</span>` : j.level ? `<span class="tag yr">${esc(j.level)}</span>` : "",
         j.class_match ? `<span class="tag yr">Class of ${S.config.profile.grad_year}</span>` : "",
         ...(j.families || []).map(f => `<span class="tag">${esc(f)}</span>`),
@@ -1095,7 +1098,7 @@
       ].join("");
       return `<div class="job"><div>
       <div class="t"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></div>
-      <div class="sub">${esc(j.company)} · posted ${j.posted_at ? ago(posted(j)) : "recently"} · via ${({ simplify: "SimplifyJobs", jobright: "Jobright", greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby", workday: "Workday" })[j.source] || esc(j.source)}</div>
+      <div class="sub">${esc(j.company)} · posted ${j.posted_at ? ago(posted(j)) : "recently"} · via ${({ simplify: "SimplifyJobs", jobright: "Jobright", greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby", workday: "Workday", amazon: "amazon.jobs", smartrecruiters: "SmartRecruiters" })[j.source] || esc(j.source)}</div>
       <div class="tags">${tags}</div>
       ${(j.skills || []).length ? `<div class="sub" style="margin-top:6px">Your skills: ${esc(j.skills.join(", "))}</div>` : ""}
     </div><div class="actions">

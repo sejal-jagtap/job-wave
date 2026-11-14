@@ -8,6 +8,8 @@ from jobwave.filters import evaluate, is_us, min_yoe
 from jobwave.sources import parse_ashby, parse_greenhouse, parse_lever, parse_simplify
 
 CFG = yaml.safe_load((Path(__file__).parent.parent / "config.yaml").read_text())
+STRICT = {**CFG, "profile": {**CFG["profile"], "require_grad_year": True}}
+CFG = {**CFG, "profile": {**CFG["profile"], "require_grad_year": False}}   # most tests check the other rules
 NOW = time.time()
 
 GH = {"jobs": [{
@@ -19,7 +21,7 @@ GH = {"jobs": [{
     "departments": [{"name": "Data"}]}]}
 LV = [{"id": "abc", "text": "Machine Learning Engineer I", "createdAt": int(NOW * 1000) - 3600_000,
        "hostedUrl": "https://jobs.lever.co/acme/abc", "workplaceType": "remote",
-       "categories": {"location": "Austin, TX", "team": "ML", "commitment": "Full-time"},
+       "categories": {"location": "San Francisco, CA", "team": "ML", "commitment": "Full-time"},
        "descriptionPlain": "You have 1+ years of experience in PyTorch.", "additionalPlain": ""}]
 AB = {"apiVersion": "1", "jobs": [{
     "id": "u-1", "title": "Senior ML Engineer", "location": "San Francisco", "isRemote": False,
@@ -45,7 +47,7 @@ def test_greenhouse_parse_and_match():
 
 def test_lever_parse_and_match():
     [j] = parse_lever("acme", LV)
-    assert j["remote"] and j["locations"] == ["Austin, TX"]
+    assert j["remote"] and j["locations"] == ["San Francisco, CA"]
     ok, why, enr = evaluate(j, CFG)
     assert ok, why
     assert enr["preferred_location"]
@@ -143,3 +145,53 @@ def test_off_target_titles():
     assert not ok("Marketing Analyst")
     assert ok("Media and Marketing Data Scientist")      # core role present -> kept
     assert ok("Machine Learning Engineer New Grad - E-Commerce User Growth")
+
+
+def test_strict_2027():
+    from jobwave.enrich import years_in
+    assert years_in("Candidates graduating between December 2026 and June 2027") == [2026, 2027]
+    assert years_in("This role is for the Class of 2027.") == [2027]
+    assert years_in("Summer 2027 start date") == [2027]
+    assert years_in("© 2026 Acme Inc. All rights reserved") == []
+    base = dict(source="jobright", company="A", url="", locations=["Dallas, TX"], remote=False, posted_at=NOW,
+                team="", employment_type="new-grad", degrees=[], sponsorship="", category="", description="",
+                title="Data Scientist, New Grad")
+    ev = lambda **kw: evaluate({**base, **kw}, STRICT)
+    assert not ev()[0]                                   # page not read -> not confirmed
+    assert not ev(page_years=[])[0]                      # read, no year stated
+    assert not ev(page_years=[2025, 2026])[0]            # earlier classes only
+    ok, _, enr = ev(page_years=[2026, 2027])
+    assert ok and enr["class_match"]
+    exp = dict(source="greenhouse", employment_type="", title="Senior Data Engineer", description="3+ years of experience")
+    assert ev(**exp)[0]                                  # experienced roles don't need a class year
+
+
+def test_target_companies():
+    from jobwave.filters import target_company
+    T = STRICT["profile"]["target_companies"]
+    assert target_company("Amazon Web Services, Inc.", T) == "Amazon"
+    assert target_company("JPMorgan Chase & Co.", T) == "JPMorgan"
+    assert target_company("Sony Interactive Entertainment", T) == "Sony Interactive Entertainment"
+    assert target_company("American Express", T) == "American Express"
+    assert target_company("Metabase", T) is None and target_company("Acme AI", T) is None
+    base = dict(source="jobright", url="", locations=["Seattle, WA"], remote=False, posted_at=NOW, team="",
+                employment_type="new-grad", degrees=[], sponsorship="", category="", description="",
+                title="Data Scientist, New Grad")
+    a = evaluate({**base, "company": "Meta"}, CFG)[2]
+    b = evaluate({**base, "company": "Acme AI"}, CFG)[2]
+    assert a["target"] == "Meta" and a["score"] > b["score"]
+    only = {**CFG, "profile": {**CFG["profile"], "only_target_companies": True}}
+    assert not evaluate({**base, "company": "Acme AI"}, only)[0]
+
+
+def test_amazon_and_smartrecruiters_parse():
+    from jobwave.sources import parse_amazon, parse_smartrecruiters
+    [a] = parse_amazon({"jobs": [{"id_icims": "3001", "title": "Data Engineer I", "posted_date": "November 12, 2026",
+                                  "normalized_location": "Seattle, Washington, USA", "job_path": "/en/jobs/3001/data-engineer-i",
+                                  "company_name": "Amazon Web Services, Inc.", "basic_qualifications": "1+ years of experience"}]})
+    assert a["url"] == "https://www.amazon.jobs/en/jobs/3001/data-engineer-i" and a["company"] == "Amazon"
+    assert evaluate(a, CFG)[0]
+    [v] = parse_smartrecruiters("Visa", {"content": [{"id": "744", "name": "Data Scientist", "releasedDate": "2026-11-12T10:00:00.000Z",
+                                                       "location": {"city": "Foster City", "region": "ca", "country": "us"},
+                                                       "company": {"name": "Visa"}, "experienceLevel": {"label": "Entry Level"}}]})
+    assert v["url"] == "https://jobs.smartrecruiters.com/Visa/744" and v["locations"] == ["Foster City, CA"]

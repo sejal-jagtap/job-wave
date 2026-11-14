@@ -52,6 +52,35 @@ NON_US = re.compile(r"\b(uk|united kingdom|london|canada|toronto|vancouver|india
                     r"sydney|netherlands|amsterdam|poland|spain|mexico|brazil|israel|china|korea|emea|apac)\b", re.I)
 
 
+# Other names your target companies post under (company field, case-insensitive).
+COMPANY_ALIASES = {
+    "google": ["google", "alphabet", "deepmind", "youtube"], "microsoft": ["microsoft"],
+    "amazon": ["amazon", "aws", "amazon web services", "prime video", "a2z"], "aws": ["aws", "amazon web services"],
+    "prime video": ["prime video"], "meta": ["meta", "facebook", "instagram", "whatsapp"], "apple": ["apple"],
+    "jpmorgan": ["jpmorgan", "jp morgan", "j.p. morgan", "jpmorganchase", "jpmorgan chase", "chase"],
+    "jp morgan & chase": ["jpmorgan", "jp morgan", "j.p. morgan", "chase"],
+    "goldman sachs": ["goldman sachs", "goldman"], "gs": ["goldman sachs", "goldman"],
+    "bcg": ["bcg", "boston consulting group"], "mckinsey & company": ["mckinsey", "quantumblack"],
+    "bank of america": ["bank of america", "bofa", "merrill"], "bofa": ["bank of america", "bofa", "merrill"],
+    "amex": ["american express", "amex"], "american express": ["american express", "amex"],
+    "bny": ["bny", "bny mellon", "bank of new york"], "td bank": ["td bank", "td securities", "toronto-dominion"],
+    "bank ozk": ["bank ozk", "ozk"], "amd": ["amd", "advanced micro devices"],
+    "sony interactive entertainment": ["sony interactive", "playstation"], "sony": ["sony"],
+    "spacex": ["spacex", "space exploration technologies", "starlink"], "salesforce": ["salesforce", "slack", "tableau"],
+    "walmart": ["walmart", "sam's club"], "fidelity": ["fidelity", "fmr"], "capital one": ["capital one"],
+}
+
+
+def target_company(company: str, targets: list[str]) -> str | None:
+    """Return the target-list name this company matches, or None."""
+    name = (company or "").lower()
+    for t in targets or []:
+        for alias in COMPANY_ALIASES.get(t.lower().strip(), [t.lower().strip()]):
+            if re.search(r"(?<![a-z0-9])" + re.escape(alias) + r"(?![a-z0-9])", name):
+                return t
+    return None
+
+
 def _kw_regex(words):
     words = [w.strip() for w in words or [] if w.strip()]
     if not words:
@@ -86,6 +115,7 @@ def grad_years(j: dict) -> set[int]:
     ys = {int(y) for y in TITLE_YEAR.findall(j["title"])}
     for m in GRAD_YEAR.finditer(j.get("description") or ""):
         ys.add(int(m.group(1) or m.group(2)))
+    ys.update(j.get("page_years") or [])      # found by reading the job page (enrich.py)
     return ys
 
 
@@ -124,6 +154,9 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
         return False, "include keyword", enr
     if j["company"].lower() in {c.lower() for c in f.get("company_blocklist") or []}:
         return False, "company blocklist", enr
+    enr["target"] = target_company(j["company"], p.get("target_companies"))
+    if p.get("only_target_companies") and not enr["target"]:
+        return False, "not a target company", enr
 
     if INTERN.search(title) or "intern" in (j.get("employment_type") or "").lower():
         if not f.get("include_internships"):
@@ -161,6 +194,9 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
     if years and gy not in years and max(years) < gy:
         return False, f"class of {max(years)}", enr
     enr["class_match"] = gy in years
+    if p.get("require_grad_year") and enr["level"] == "New grad" and not enr["class_match"]:
+        # Strict mode: new-grad roles must say they're for this class. Experienced roles don't need to.
+        return False, ("no " + str(gy) + " mention" if "page_years" in j else "job page not read yet / unreadable"), enr
 
     degs = j.get("degrees") or []
     if degs and not set(degs) & set(p["degrees"]):
@@ -202,6 +238,6 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
         "remote" in [w.lower() for w in f.get("preferred_locations") or []] and j.get("remote"))
     enr["preferred_location"] = bool(pref)
     age_h = (time.time() - (j.get("posted_at") or 0)) / 3600
-    enr["score"] = round(min(len(hits), 6) + 3 * pref + 3 * enr["class_match"] + 2 * labeled_entry
+    enr["score"] = round(6 * bool(enr.get("target")) + min(len(hits), 6) + 3 * pref + 3 * enr["class_match"] + 2 * labeled_entry
                          + max(0, 3 - age_h / 24), 1)
     return True, "", enr

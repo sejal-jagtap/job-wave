@@ -1,52 +1,206 @@
 # JobWave config (previous version saved as config.yaml.bak)
 profile:
   grad_year: 2027
+  check_job_pages: true
+  require_grad_year: false
+  max_pages_per_run: 200
   degrees:
   - Bachelor's
   - Master's
   skills:
   - python
+  - numpy
+  - pandas
+  - scikit-learn
+  - sklearn
+  - java
   - sql
+  - shell
+  - bash
+  - llm
+  - llms
+  - prompt engineering
+  - agents
+  - agentic
+  - rag
+  - retrieval
+  - embeddings
+  - bert
+  - vector search
+  - semantic search
+  - claude
+  - gpt
+  - openai
+  - azure openai
+  - generative ai
+  - genai
+  - evaluation
   - pytorch
   - tensorflow
+  - machine learning
+  - deep learning
+  - nlp
+  - recommender
+  - recommendation
+  - feature engineering
+  - statistics
+  - a/b testing
+  - experimentation
+  - experimental design
+  - causal inference
+  - kafka
+  - streaming
   - spark
   - airflow
-  - dbt
-  - aws
-  - azure
-  - gcp
-  - llm
-  - nlp
-  - machine learning
-  - genai
-  - rag
-  - tableau
-  - power bi
-  - snowflake
   - databricks
+  - snowflake
+  - hadoop
+  - etl
+  - data pipelines
+  - aws
+  - s3
+  - glue
+  - lambda
+  - dynamodb
+  - sagemaker
+  - gcp
+  - bigquery
+  - azure
+  - docker
+  - kubernetes
+  - ci/cd
+  - jenkins
+  target_companies:
+  - Google
+  - Microsoft
+  - Amazon
+  - Meta
+  - Apple
+  - Databricks
+  - Snowflake
+  - Uber
+  - Airbnb
+  - Capital One
+  - JPMorgan
+  - Goldman Sachs
+  - Stripe
+  - Salesforce
+  - Adobe
+  - IBM
+  - BCG
+  - LinkedIn
+  - Barclays
+  - KPMG
+  - Tesla
+  - Bank OZK
+  - AMD
+  - TD Bank
+  - Bank of America
+  - Visa
+  - Vanguard
+  - Sony Interactive Entertainment
+  - Sony
+  - NVIDIA
+  - Workday
+  - McKinsey & Company
+  - SpaceX
+  - Walmart
+  - Plaid
+  - Notion
+  - Intel
+  - Waymo
+  - American Express
+  - Intuit
+  - Figma
+  - Fidelity
+  - BNY
+  only_target_companies: false
 filters:
-  role_families: [data_science, ml_ai, data_engineering]   # also available: analytics, research
+  role_families:
+  - data_science
+  - ml_ai
+  - data_engineering
   include_internships: false
-  max_years_experience: 2         # entry-level roles: drop if the posting asks for more
-  experienced:                    # Senior / Level II-III roles that fit ~3 yrs industry experience + a Master's
+  max_years_experience: 2
+  experienced:
     enabled: true
-    max_years: 3                  # keep only if the posting asks for <= this many years (must be stated)
-    role_families: [data_engineering, data_science, ml_ai]
-  allow_unlabeled_level: true     # company-board roles with no "new grad / entry" label pass only if YOE <= max
+    max_years: 3
+    role_families:
+    - data_engineering
+    - data_science
+    - ml_ai
+  allow_unlabeled_level: true
   us_only: true
-  locations: []                   # empty = anywhere in the US; else substrings, e.g. ["TX", "Remote", "New York"]
-  preferred_locations: [Dallas, Plano, Irving, Austin, Remote]   # ranked higher, not required
+  locations: []
+  preferred_locations:
+  - San Francisco
+  - Bay Area
+  - San Jose
+  - Palo Alto
+  - Mountain View
+  - Sunnyvale
+  - Menlo Park
+  - Redwood City
+  - Santa Clara
+  - Cupertino
+  - Oakland
+  - San Mateo
+  - Foster City
+  - Seattle
+  - Bellevue
+  - Redmond
+  - Kirkland
+  - Boston
+  - Cambridge
+  - Waltham
+  - Chicago
+  - New York
+  - NYC
+  - Brooklyn
+  - Jersey City
   remote_only: false
-  exclude_if: [citizenship, clearance]   # drop roles requiring US citizenship / security clearance
-  needs_sponsorship: false        # true = also drop roles that say they don't sponsor visas
-  min_salary: 0                   # USD/yr; only applied when the posting lists pay
-  include_keywords: []            # title must contain one of these (empty = no constraint)
-  exclude_keywords: [staff, principal, lead, manager, director, head of, vp, distinguished, iv,
-                     annotator, rater, raters, labeler, tutor, trainer, teleoperator]
-  # Dropped unless the title also says scientist / engineer / machine learning / developer / researcher:
-  off_target_words: [analyst, analytics, consultant, consulting, specialist, business, marketing, sales,
-                     operations, product manager, product management, tax, finance, financial, accounting,
-                     support, deployment, coordinator, administrator]
+  exclude_if:
+  - clearance
+  needs_sponsorship: false
+  min_salary: 0
+  include_keywords: []
+  exclude_keywords:
+  - staff
+  - principal
+  - lead
+  - manager
+  - director
+  - head of
+  - vp
+  - distinguished
+  - iv
+  - annotator
+  - rater
+  - raters
+  - labeler
+  - tutor
+  - trainer
+  - teleoperator
+  off_target_words:
+  - analyst
+  - analytics
+  - consultant
+  - consulting
+  - specialist
+  - business
+  - marketing
+  - sales
+  - operations
+  - product manager
+  - product management
+  - tax
+  - finance
+  - financial
+  - accounting
+  - support
+  - deployment
+  - coordinator
+  - administrator
   company_blocklist: []
 alerts:
   max_age_hours: 72
@@ -57,6 +211,13 @@ sources:
   jobright:
   - 2026-Software-Engineer-New-Grad
   - 2026-Business-Analyst-New-Grad
+  amazon: true
+  search_terms:
+  - data
+  - machine learning
+  - AI
+  - scientist
+  - data engineer
   greenhouse:
   - anthropic
   - databricks
@@ -108,6 +269,8 @@ sources:
   - pagerduty
   - mercury
   - betterment
+  - spacex
+  - sonyinteractiveentertainmentglobal
   lever:
   - palantir
   - spotify
@@ -133,18 +296,11 @@ sources:
   - supabase
   - decagon
   - writer
+  - plaid
+  - snowflake
+  smartrecruiters:
+  - Visa
   workday:
   - Salesforce | https://salesforce.wd12.myworkdayjobs.com/External_Career_Site
   - Capital One | https://capitalone.wd12.myworkdayjobs.com/Capital_One
-  - Mastercard | https://mastercard.wd1.myworkdayjobs.com/CorporateCareers
-  - Intel | https://intel.wd1.myworkdayjobs.com/External
-  - Bank of America | https://ghr.wd1.myworkdayjobs.com/Lateral-US
-  - Fidelity | https://fmr.wd1.myworkdayjobs.com/FidelityCareers
-  - PayPal | https://paypal.wd1.myworkdayjobs.com/jobs
   - Barclays | https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays
-  workday_search:
-  - data
-  - machine learning
-  - AI
-  - analyst
-  - scientist

@@ -57,19 +57,19 @@ def tags(j) -> str:
 
 # ---------- channels ----------
 def _ntfy(title, body, click="", actions="", markdown=False):
+    """Publish as JSON so titles keep UTF-8 (★, –, é). `actions` is a URL for an "Apply now" button."""
     topic = os.getenv("NTFY_TOPIC")
     if not topic:
         return False
-    hdr = {"Title": title.encode("ascii", "ignore").decode(), "Tags": "briefcase", "Priority": "high"}
+    msg = {"topic": topic, "title": title, "message": body, "tags": ["briefcase"], "priority": 4}
     if click:
-        hdr["Click"] = click
+        msg["click"] = click
     if actions:
-        hdr["Actions"] = actions
+        msg["actions"] = [{"action": "view", "label": "Apply now", "url": actions, "clear": True}]
     if markdown:
-        hdr["Markdown"] = "yes"
+        msg["markdown"] = True
     try:
-        r = requests.post(f"{os.getenv('NTFY_SERVER', 'https://ntfy.sh')}/{topic}", data=body.encode(),
-                          headers=hdr, timeout=15)
+        r = requests.post(os.getenv("NTFY_SERVER", "https://ntfy.sh").rstrip("/"), json=msg, timeout=15)
         r.raise_for_status()
     except Exception as e:
         log.warning("ntfy failed: %s", e)
@@ -113,15 +113,15 @@ def send(new: list[dict], cfg: dict) -> list[str]:
 
     # push
     if digest:
-        body = "\n".join(f"**[{j['title']}]({j['url']})** — {facts(j)}" for j in new[:20])
+        body = "\n".join(f"{'★ ' if j.get('target') else ''}**[{j['title']}]({j['url']})** — {facts(j)}" for j in new[:20])
         if len(new) > 20:
             body += f"\n…and {len(new) - 20} more (see email/Slack)"
         if _ntfy(f"{len(new)} new Data & AI roles", body, markdown=True):
             used.add("ntfy")
     else:
         for j in new:
-            if _ntfy(f"{j['company']}: {j['title']}", f"{facts(j)}\n{tags(j)}", click=j["url"],
-                     actions=f"view, Apply now, {j['url']}, clear=true"):
+            if _ntfy(f"{'★ ' if j.get('target') else ''}{j['company']}: {j['title']}", f"{facts(j)}\n{tags(j)}", click=j["url"],
+                     actions=j["url"]):
                 used.add("ntfy")
 
     # chat

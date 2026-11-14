@@ -23,6 +23,7 @@ from pathlib import Path
 import yaml
 
 from . import notify
+from .enrich import enrich
 from .filters import evaluate
 from .sources import _fetch_one, detect_board, fetch_all, source_tasks
 
@@ -61,6 +62,24 @@ def dedupe(jobs):
     return list(best.values())
 
 
+def match(jobs: list[dict], cfg: dict, cache_path: Path):
+    """Evaluate every posting. With profile.check_job_pages (or require_grad_year), new-grad candidates' job pages
+    are read first, so roles stated for an earlier class (e.g. 'graduating 2026') are dropped and 2027 ones tagged."""
+    if cfg["profile"].get("check_job_pages") or cfg["profile"].get("require_grad_year"):
+        loose = {**cfg, "profile": {**cfg["profile"], "require_grad_year": False}}
+        cands = []
+        for j in jobs:
+            ok, _, enr = evaluate(j, loose)
+            if ok and enr.get("level") == "New grad":
+                cands.append(j)
+        enrich(cands, cache_path, cfg["profile"].get("max_pages_per_run", 200))
+    out = []
+    for j in jobs:
+        ok, why, enr = evaluate(j, cfg)
+        out.append((j, ok, why, enr))
+    return out
+
+
 def run(cfg, send_alerts=True, backlog=False):
     t0 = time.time()
     raw, health = fetch_all(cfg)
@@ -68,8 +87,7 @@ def run(cfg, send_alerts=True, backlog=False):
     log.info("fetched %d postings (%d after de-dup) from %d sources", len(raw), len(jobs), len(health))
 
     matched, reasons = [], collections.Counter()
-    for j in jobs:
-        ok, why, enr = evaluate(j, cfg)
+    for j, ok, why, enr in match(jobs, cfg, STATE / "page_years.json"):
         if ok:
             j.update(enr)
             matched.append(j)
@@ -163,9 +181,8 @@ def check_sources(cfg, prune=False):
 
 def explain(cfg, text):
     raw, _ = fetch_all(cfg)
-    for j in dedupe(raw):
+    for j, ok, why, enr in match(dedupe(raw), cfg, ROOT / ".jobwave-pages.json"):
         if text.lower() in j["title"].lower() or text.lower() in j["company"].lower():
-            ok, why, enr = evaluate(j, cfg)
             print(f"{'KEEP' if ok else 'DROP':4} {j['company'][:22]:22} {j['title'][:60]:60} "
                   f"{why or ('score ' + str(enr.get('score')))}")
 
@@ -174,8 +191,7 @@ def demo(cfg, count=3):
     """Alert on the newest real matches right now, without touching saved state."""
     raw, health = fetch_all(cfg)
     matched = []
-    for j in dedupe(raw):
-        ok, _, enr = evaluate(j, cfg)
+    for j, ok, _, enr in match(dedupe(raw), cfg, ROOT / ".jobwave-pages.json"):
         if ok:
             j.update(enr)
             matched.append(j)

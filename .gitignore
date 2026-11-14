@@ -3,3 +3,4 @@ __pycache__/
 .env
 .jobwave-local.json
 config.yaml.bak
+.jobwave-pages.json

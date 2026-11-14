@@ -12,6 +12,8 @@ import requests
 
 log = logging.getLogger("jobwave")
 UA = {"User-Agent": "JobWave/1.0 (personal job watcher)"}
+BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) "
+                            "Chrome/130.0 Safari/537.36", "Accept-Language": "en-US,en;q=0.9"}
 SIMPLIFY_URL = "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/.github/scripts/listings.json"
 
 
@@ -208,12 +210,94 @@ def parse_workday(entry: str, pages: list[dict]) -> list[dict]:
     return out
 
 
+def parse_amazon(data: dict) -> list[dict]:
+    """amazon.jobs/en/search.json (also covers AWS, Prime Video, Alexa...)."""
+    out = []
+    for j in data.get("jobs") or []:
+        jid = str(j.get("id_icims") or j.get("id") or "")
+        if not jid:
+            continue
+        posted = None
+        try:
+            posted = datetime.strptime(j.get("posted_date", ""), "%B %d, %Y").replace(hour=12).timestamp()
+        except ValueError:
+            pass
+        loc = j.get("normalized_location") or j.get("location") or ""
+        desc = "\n".join(html_to_text(j.get(k)) for k in ("description", "basic_qualifications", "preferred_qualifications"))
+        out.append(job(
+            id=f"amz:{jid}", source="amazon", company=(j.get("company_name") or "Amazon").split(" ")[0].replace(".com", ""),
+            title=j.get("title", "").strip(), url="https://www.amazon.jobs" + j.get("job_path", f"/en/jobs/{jid}"),
+            locations=[loc] if loc else [], remote="virtual" in loc.lower() or "remote" in loc.lower(),
+            posted_at=posted, team=j.get("business_category") or j.get("job_category", ""), description=desc,
+        ))
+    return out
+
+
+def parse_smartrecruiters(company: str, data: dict) -> list[dict]:
+    out = []
+    for j in data.get("content") or []:
+        loc = j.get("location") or {}
+        place = ", ".join(x for x in (loc.get("city"), (loc.get("region") or "").upper() or None) if x)
+        if (loc.get("country") or "").lower() not in ("us", "usa", ""):
+            place = f"{place}, {loc.get('country', '').upper()}".strip(", ")
+        out.append(job(
+            id=f"sr:{company}:{j['id']}", source="smartrecruiters", company=(j.get("company") or {}).get("name") or company,
+            title=j.get("name", "").strip(), url=f"https://jobs.smartrecruiters.com/{company}/{j['id']}",
+            locations=[place] if place else [], remote=bool(loc.get("remote")), posted_at=_ts(j.get("releasedDate")),
+            employment_type=(j.get("typeOfEmployment") or {}).get("label", ""),
+            team=(j.get("experienceLevel") or {}).get("label", ""),
+        ))
+    return out
+
+
+def _amazon_fetch(terms: list[str], pages=2):
+    data = {"jobs": []}
+    for term in terms or ["data"]:
+        for page in range(pages):
+            r = requests.get("https://www.amazon.jobs/en/search.json", headers={**BROWSER_UA, "Accept": "application/json"},
+                             params={"base_query": term, "result_limit": 100, "offset": page * 100, "sort": "recent",
+                                     "normalized_country_code[]": "USA"}, timeout=30)
+            r.raise_for_status()
+            batch = r.json().get("jobs") or []
+            data["jobs"] += batch
+            if len(batch) < 100:
+                break
+    return list({j["id"]: j for j in parse_amazon(data)}.values())
+
+
+def _smartrecruiters_fetch(company: str, terms: list[str]):
+    pages = []
+    for term in terms or [""]:
+        r = requests.get(f"https://api.smartrecruiters.com/v1/companies/{company}/postings",
+                         params={"q": term, "limit": 100, "country": "us"}, headers=BROWSER_UA, timeout=30)
+        r.raise_for_status()
+        pages.append(r.json())
+    jobs = {j["id"]: j for p in pages for j in parse_smartrecruiters(company, p)}.values()
+    from .filters import FAMILIES
+    fam = re.compile("|".join(FAMILIES.values()), re.I)
+    out, n = [], 0
+    for j in jobs:   # descriptions only for plausible, recent roles
+        if fam.search(j["title"]) and j["posted_at"] and time.time() - j["posted_at"] < 4 * 86400 and n < 25:
+            n += 1
+            try:
+                d = requests.get(f"https://api.smartrecruiters.com/v1/companies/{company}/postings/{j['id'].rsplit(':', 1)[1]}",
+                                 headers=BROWSER_UA, timeout=20).json()
+                secs = (d.get("jobAd") or {}).get("sections") or {}
+                j["description"] = "\n".join(html_to_text((secs.get(k) or {}).get("text"))
+                                             for k in ("jobDescription", "qualifications", "additionalInformation"))[:6000]
+            except Exception:
+                pass
+        out.append(j)
+    return out
+
+
 BOARD_PATTERNS = [
     ("greenhouse", r"(?:boards|job-boards)(?:\.eu)?\.greenhouse\.io/(?:embed/job_board\?for=)?([A-Za-z0-9_-]+)"),
     ("greenhouse", r"boards-api\.greenhouse\.io/v1/boards/([A-Za-z0-9_-]+)"),
     ("lever", r"jobs\.lever\.co/([A-Za-z0-9_.-]+)"),
     ("ashby", r"jobs\.ashbyhq\.com/([A-Za-z0-9_.%-]+)"),
     ("workday", r"(https?://[a-z0-9-]+\.wd\d+\.myworkday(?:jobs|site)\.com/(?:[a-z]{2}-[A-Z]{2}/)?[A-Za-z0-9_-]+)"),
+    ("smartrecruiters", r"(?:jobs|careers)\.smartrecruiters\.com/([A-Za-z0-9_-]+)"),
 ]
 _NOT_SLUGS = {"embed", "v1", "jobs", "api", "job_board", "search", "en-US"}
 
@@ -244,7 +328,7 @@ def _workday_fetch(entry: str, terms: list[str], max_pages=2):
     for term in terms or [""]:
         for page in range(max_pages):
             r = requests.post(api, json={"appliedFacets": {}, "limit": 20, "offset": page * 20, "searchText": term},
-                              headers={**UA, "Accept": "application/json", "Accept-Language": "en-US"}, timeout=30)
+                              headers={**BROWSER_UA, "Accept": "application/json", "Content-Type": "application/json"}, timeout=30)
             r.raise_for_status()
             data = r.json()
             pages.append(data)
@@ -255,7 +339,7 @@ def _workday_fetch(entry: str, terms: list[str], max_pages=2):
     # experience / citizenship / class-year filters can work.
     from .filters import FAMILIES
     fam = re.compile("|".join(FAMILIES.values()), re.I)
-    senior = re.compile(r"\b(senior|sr\.?|staff|principal|lead|manager|director|head)\b", re.I)
+    senior = re.compile(r"\b(staff|principal|lead|manager|director|head)\b", re.I)
     out, n_detail = [], 0
     for j in jobs:
         fresh = j["posted_at"] and time.time() - j["posted_at"] < 4 * 86400   # keeps each run under a minute
@@ -263,7 +347,7 @@ def _workday_fetch(entry: str, terms: list[str], max_pages=2):
             n_detail += 1
             try:
                 info = requests.get(f"https://{host}/wday/cxs/{tenant}/{site}{j['url'].split(site, 1)[1]}",
-                                    headers={**UA, "Accept": "application/json"}, timeout=20).json()
+                                    headers={**BROWSER_UA, "Accept": "application/json"}, timeout=20).json()
                 info = info.get("jobPostingInfo") or {}
                 j["description"] = html_to_text(info.get("jobDescription"))[:6000]
                 j["employment_type"] = info.get("timeType", "")
@@ -285,7 +369,12 @@ def _fetch_one(kind: str, slug: str, cfg: dict | None = None):
         if kind == "ashby":
             return parse_ashby(slug, _get(f"https://api.ashbyhq.com/posting-api/job-board/{slug}?includeCompensation=true"))
         if kind == "workday":
-            return _workday_fetch(slug, src.get("workday_search") or ["data", "machine learning", "AI", "analyst"])
+            return _workday_fetch(slug, src.get("search_terms") or src.get("workday_search")
+                                  or ["data", "machine learning", "AI", "scientist"])
+        if kind == "smartrecruiters":
+            return _smartrecruiters_fetch(slug, src.get("search_terms") or src.get("workday_search"))
+        if kind == "amazon":
+            return _amazon_fetch(src.get("search_terms") or src.get("workday_search"))
         if kind == "jobright":
             r = requests.get(JOBRIGHT_URL.format(repo=slug), headers=UA, timeout=60)
             r.raise_for_status()
@@ -300,7 +389,10 @@ def _fetch_one(kind: str, slug: str, cfg: dict | None = None):
 
 def source_tasks(cfg: dict) -> list[tuple[str, str]]:
     src = cfg.get("sources", {})
-    tasks = [(k, s) for k in ("greenhouse", "lever", "ashby", "workday", "jobright") for s in src.get(k) or []]
+    tasks = [(k, s) for k in ("greenhouse", "lever", "ashby", "workday", "smartrecruiters", "jobright")
+             for s in src.get(k) or []]
+    if src.get("amazon"):
+        tasks.append(("amazon", "amazon.jobs"))
     if src.get("simplify_newgrad", True):
         tasks.append(("simplify", "newgrad"))
     return tasks
