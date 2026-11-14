@@ -30,7 +30,7 @@ filters:
   max_years_experience: 2         # entry-level roles: drop if the posting asks for more
   experienced:                    # Senior / Level II-III roles that fit ~3 yrs industry experience + a Master's
     enabled: true
-    max_years: 4                  # keep only if the posting asks for <= this many years (must be stated)
+    max_years: 3                  # keep only if the posting asks for <= this many years (must be stated)
     role_families: [data_engineering, data_science, ml_ai]
   allow_unlabeled_level: true     # company-board roles with no "new grad / entry" label pass only if YOE <= max
   us_only: true
