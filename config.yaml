@@ -25,55 +25,28 @@ profile:
   - snowflake
   - databricks
 filters:
-  role_families:
-  - data_science
-  - ml_ai
-  - data_engineering
-  - analytics
-  - research
+  role_families: [data_science, ml_ai, data_engineering]   # also available: analytics, research
   include_internships: false
-  max_years_experience: 2
-  allow_unlabeled_level: true
+  max_years_experience: 2         # entry-level roles: drop if the posting asks for more
+  experienced:                    # Senior / Level II-III roles that fit ~3 yrs industry experience + a Master's
+    enabled: true
+    max_years: 4                  # keep only if the posting asks for <= this many years (must be stated)
+    role_families: [data_engineering, data_science, ml_ai]
+  allow_unlabeled_level: true     # company-board roles with no "new grad / entry" label pass only if YOE <= max
   us_only: true
-  locations: []
-  preferred_locations:
-  - Dallas
-  - Plano
-  - Irving
-  - Austin
-  - Remote
+  locations: []                   # empty = anywhere in the US; else substrings, e.g. ["TX", "Remote", "New York"]
+  preferred_locations: [Dallas, Plano, Irving, Austin, Remote]   # ranked higher, not required
   remote_only: false
-  exclude_if:
-  - citizenship
-  - clearance
-  needs_sponsorship: false
-  min_salary: 0
-  include_keywords: []
-  exclude_keywords:
-  - senior
-  - staff
-  - principal
-  - lead
-  - manager
-  - director
-  - head of
-  - sr.
-  - sr
-  - ii
-  - iii
-  - iv
-  - '2'
-  - '3'
-  - annotator
-  - rater
-  - raters
-  - labeler
-  - tutor
-  - trainer
-  - teleoperator
+  exclude_if: [citizenship, clearance]   # drop roles requiring US citizenship / security clearance
+  needs_sponsorship: false        # true = also drop roles that say they don't sponsor visas
+  min_salary: 0                   # USD/yr; only applied when the posting lists pay
+  include_keywords: []            # title must contain one of these (empty = no constraint)
+  exclude_keywords: [staff, principal, lead, manager, director, head of, vp, distinguished, iv,
+                     annotator, rater, raters, labeler, tutor, trainer, teleoperator]
+  # Dropped unless the title also says scientist / engineer / machine learning / developer / researcher:
   off_target_words: [analyst, analytics, consultant, consulting, specialist, business, marketing, sales,
-                        operations, product manager, product management, tax, finance, financial, accounting,
-                        support, deployment, coordinator, administrator]
+                     operations, product manager, product management, tax, finance, financial, accounting,
+                     support, deployment, coordinator, administrator]
   company_blocklist: []
 alerts:
   max_age_hours: 72
