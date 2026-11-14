@@ -1,10 +1,10 @@
 {
- "last_run": 1794614915.8362238,
- "duration_s": 22.8,
+ "last_run": 1794614968.0465746,
+ "duration_s": 19.7,
  "fetched": 18858,
  "unique": 18152,
  "matched": 510,
- "new_this_run": 17,
+ "new_this_run": 0,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
@@ -22,7 +22,7 @@
   ],
   [
    "non-US",
-   168
+   167
   ],
   [
    "degree",
@@ -42,7 +42,7 @@
   ],
   [
    "4+",
-   42
+   43
   ],
   [
    "8+",
