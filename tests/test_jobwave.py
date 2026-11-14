@@ -75,3 +75,43 @@ def test_rules():
     assert drop(title="Software Engineer, New Grad", description="")             # not Data/AI
     assert drop(title="Data Scientist", description="")                           # no level signal
     assert not drop(title="Data Scientist", description="1+ years of experience")  # unlabeled but YOE fits
+
+
+# ---------- Jobright, Workday, URL detection ----------
+from jobwave.sources import detect_board, parse_jobright, parse_workday, workday_parts
+
+JR = """| Company | Job Title | Location | Work Model | Date Posted |
+| ----- | --------- |  --------- | ---- | ------- |
+| **[Acme AI](https://acme.ai)** | **[Machine Learning Engineer, New Grad](https://jobright.ai/jobs/info/6af7aa?utm_source=1103)** | Austin, TX, United States | Remote | Nov 13 |
+| ↳ | **[Data Scientist I](https://jobright.ai/jobs/info/6af7bb?utm_source=1103)** | Dallas, TX, United States | On Site | Nov 12 |
+"""
+WD = [{"total": 2, "jobPostings": [
+    {"title": "Associate Data Scientist", "externalPath": "/job/Plano-TX/Associate-Data-Scientist_R123",
+     "locationsText": "Plano, TX", "postedOn": "Posted Today", "bulletFields": ["R123"]},
+    {"title": "Senior Data Engineer", "externalPath": "/job/Remote/Senior-Data-Engineer_R456",
+     "locationsText": "Remote - US", "postedOn": "Posted 3 Days Ago", "bulletFields": ["R456"]}]}]
+
+
+def test_jobright_parse():
+    a, b = parse_jobright("2026-AI-New-Grad", JR)
+    assert a["company"] == b["company"] == "Acme AI"          # ↳ row inherits company
+    assert a["remote"] and b["locations"] == ["Dallas, TX"] and a["id"] == "jr:6af7aa"
+    assert evaluate(a, CFG)[0] and evaluate(b, CFG)[0]
+
+
+def test_workday_parse():
+    assert workday_parts("https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite") == \
+        ("nvidia.wd5.myworkdayjobs.com", "nvidia", "NVIDIAExternalCareerSite")
+    a, b = parse_workday("Capital One | https://capitalone.wd12.myworkdayjobs.com/Capital_One", WD)
+    assert a["company"] == "Capital One" and a["url"].endswith("/Capital_One/job/Plano-TX/Associate-Data-Scientist_R123")
+    assert evaluate(a, CFG)[0] and not evaluate(b, CFG)[0]
+
+
+def test_detect_board():
+    assert detect_board("https://boards.greenhouse.io/databricks/jobs/123", fetch=False) == ("greenhouse", "databricks")
+    assert detect_board("https://job-boards.greenhouse.io/anthropic", fetch=False) == ("greenhouse", "anthropic")
+    assert detect_board("https://jobs.lever.co/palantir/abc-123", fetch=False) == ("lever", "palantir")
+    assert detect_board("https://jobs.ashbyhq.com/openai/xyz", fetch=False) == ("ashby", "openai")
+    assert detect_board("https://capitalone.wd12.myworkdayjobs.com/en-US/Capital_One/job/x", fetch=False) == \
+        ("workday", "https://capitalone.wd12.myworkdayjobs.com/en-US/Capital_One")
+    assert detect_board("https://example.com/careers", fetch=False) is None

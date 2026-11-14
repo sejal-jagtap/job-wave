@@ -118,7 +118,7 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
         if not f.get("include_internships"):
             return False, "internship", enr
 
-    labeled_entry = j["source"] == "simplify" or bool(ENTRY.search(title))
+    labeled_entry = j["source"] in ("simplify", "jobright") or bool(ENTRY.search(title))
     yoe = min_yoe(desc)
     enr["yoe"] = yoe
     if yoe is not None and yoe > f["max_years_experience"]:
@@ -150,14 +150,15 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
 
     ex = [x.lower() for x in f.get("exclude_if") or []]
     spons = (j.get("sponsorship") or "").lower()
-    if "citizenship" in ex and (CITIZEN.search(desc) or "citizenship" in spons):
+    full = title + "\n" + desc
+    if "citizenship" in ex and (CITIZEN.search(full) or "citizenship" in spons):
         return False, "US citizenship required", enr
-    if "clearance" in ex and CLEARANCE.search(desc):
+    if "clearance" in ex and CLEARANCE.search(full):
         return False, "clearance required", enr
-    if f.get("needs_sponsorship") and (NO_SPONSOR.search(desc) or "does not offer" in spons or "citizenship" in spons):
+    if f.get("needs_sponsorship") and (NO_SPONSOR.search(full) or "does not offer" in spons or "citizenship" in spons):
         return False, "no sponsorship", enr
     enr["sponsorship"] = ("Offers sponsorship" if "offers" in spons else
-                          "No sponsorship" if (NO_SPONSOR.search(desc) or "does not offer" in spons) else "")
+                          "No sponsorship" if (NO_SPONSOR.search(full) or "does not offer" in spons) else "")
 
     smin, smax = salary(j)
     enr["salary_min"], enr["salary_max"] = smin, smax

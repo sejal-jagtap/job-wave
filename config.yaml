@@ -32,11 +32,33 @@ alerts:
   #   SLACK_WEBHOOK_URL / DISCORD_WEBHOOK_URL
   #   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ALERT_EMAIL_TO  -> email
 
+
 sources:
-  simplify_newgrad: true          # SimplifyJobs/New-Grad-Positions (thousands of new-grad roles, updated hourly)
+  simplify_newgrad: true
+  jobright: [2026-Software-Engineer-New-Grad, 2026-Business-Analyst-New-Grad]
   greenhouse: [anthropic, databricks, scaleai, stripe, airbnb, robinhood, figma, datadog, mongodb,
                cloudflare, coinbase, pinterest, instacart, lyft, reddit, discord, duolingo, samsara,
-               roblox, affirm, brex, gusto, asana, dropbox, twilio, waymo, nuro, toast, chime, block]
+               roblox, affirm, brex, gusto, asana, dropbox, twilio, waymo, nuro, toast, chime, block,
+               gitlab, okta, elastic, etsy, squarespace, sofi, carta, flexport, anduril, grammarly,
+               verkada, gemini, vercel, thumbtack, faire, lattice, webflow, amplitude, braze, klaviyo,
+               fivetran, dbtlabsinc, cockroachlabs, pagerduty, mercury, nerdwallet, betterment]
   lever: [palantir, plaid, spotify, zoox, wealthfront]
-  ashby: [openai, cohere, notion, ramp, perplexity, linear, replit, harvey, elevenlabs, mercor, sierra, modal]
-
+  ashby: [openai, cohere, notion, ramp, perplexity, linear, replit, harvey, elevenlabs, mercor, sierra, modal,
+          anysphere, runway, pinecone, vanta, posthog, supabase, clay, hebbia, decagon, writer]
+  workday:
+    - NVIDIA | https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
+    - Salesforce | https://salesforce.wd12.myworkdayjobs.com/External_Career_Site
+    - Adobe | https://adobe.wd5.myworkdayjobs.com/external_experienced
+    - Workday | https://workday.wd5.myworkdayjobs.com/Workday
+    - Capital One | https://capitalone.wd12.myworkdayjobs.com/Capital_One
+    - Mastercard | https://mastercard.wd1.myworkdayjobs.com/CorporateCareers
+    - Walmart | https://walmart.wd5.myworkdayjobs.com/WalmartExternal
+    - Intel | https://intel.wd1.myworkdayjobs.com/External
+    - Bank of America | https://ghr.wd1.myworkdayjobs.com/Lateral-US
+    - Citi | https://citi.wd5.myworkdayjobs.com/2
+    - Fidelity | https://fmr.wd1.myworkdayjobs.com/FidelityCareers
+    - Dell | https://dell.wd1.myworkdayjobs.com/External
+    - PayPal | https://paypal.wd1.myworkdayjobs.com/jobs
+    - Toyota North America | https://toyota.wd5.myworkdayjobs.com/TMNA
+    - Barclays | https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays
+  workday_search: [data, machine learning, AI, analyst, scientist]

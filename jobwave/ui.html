@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JobWave</title>
+  <style>
+    :root {
+      --bg: #f5f8fa;
+      --surface: #fff;
+      --ink: #14232f;
+      --muted: #5d6f7c;
+      --line: #e1e8ed;
+      --blue: #1f6feb;
+      --blue-soft: #e8f1fe;
+      --teal: #0f9d8a;
+      --teal-soft: #e3f6f2;
+      --amber: #b7791f;
+      --amber-soft: #fdf4e3;
+      --red: #c2410c;
+      --red-soft: #fdecea;
+      --violet: #5b21b6;
+      --violet-soft: #ede9fe;
+      --radius: 12px;
+      --shadow: 0 1px 2px rgba(20, 35, 47, .06), 0 4px 16px rgba(20, 35, 47, .05)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.45
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    a {
+      color: inherit
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 22px
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 20
+    }
+
+    .hbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 62px
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -.01em
+    }
+
+    nav {
+      display: flex;
+      gap: 4px;
+      margin-left: 18px
+    }
+
+    .nav {
+      border: 0;
+      background: transparent;
+      padding: 8px 13px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-weight: 600;
+      display: flex;
+      gap: 7px;
+      align-items: center
+    }
+
+    .nav:hover {
+      background: #f0f4f7
+    }
+
+    .nav.on {
+      background: var(--blue-soft);
+      color: var(--blue)
+    }
+
+    .nav .n {
+      background: #e9eef2;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 0 7px;
+      font-size: 12px
+    }
+
+    .nav.on .n {
+      background: #cfe0fc;
+      color: var(--blue)
+    }
+
+    .spacer {
+      flex: 1
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal)
+    }
+
+    .dot.busy {
+      background: var(--blue);
+      animation: pulse 1s infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 13px;
+      border-radius: 9px;
+      font-weight: 500;
+      font-size: 13.5px;
+      text-decoration: none;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .btn:hover {
+      background: #f0f4f7
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: default
+    }
+
+    .btn.primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff
+    }
+
+    .btn.primary:hover {
+      background: #1a5fd0
+    }
+
+    .btn.teal {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff
+    }
+
+    .btn.sm {
+      padding: 5px 10px;
+      font-size: 12.5px
+    }
+
+    .btn.on {
+      background: var(--teal-soft);
+      border-color: #a8e0d6;
+      color: #0b7466
+    }
+
+    main {
+      padding: 22px 0 50px
+    }
+
+    .view {
+      display: none
+    }
+
+    .view.on {
+      display: block
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 13px 16px
+    }
+
+    .stat .k {
+      font-size: 11.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 600
+    }
+
+    .stat .v {
+      font-size: 25px;
+      font-weight: 700;
+      margin-top: 3px;
+      letter-spacing: -.02em
+    }
+
+    .stat .s {
+      font-size: 12.5px;
+      color: var(--muted)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 18px;
+      align-items: start
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow)
+    }
+
+    .panel {
+      padding: 16px
+    }
+
+    .panel h3 {
+      margin: 0 0 12px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted)
+    }
+
+    .side {
+      position: sticky;
+      top: 80px
+    }
+
+    .field {
+      margin-bottom: 14px
+    }
+
+    .lbl {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 4px 11px;
+      font-size: 12.5px;
+      color: var(--muted)
+    }
+
+    .chip.on {
+      background: var(--blue-soft);
+      border-color: #b6d1fb;
+      color: var(--blue);
+      font-weight: 600
+    }
+
+    .text {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 8px 10px;
+      background: #fff
+    }
+
+    .text:focus {
+      outline: 2px solid #b6d1fb;
+      border-color: var(--blue)
+    }
+
+    textarea.text {
+      min-height: 70px;
+      resize: vertical
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      margin-bottom: 8px;
+      cursor: pointer
+    }
+
+    .check input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--teal)
+    }
+
+    .hint {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 5px
+    }
+
+    .listhead {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .listhead select {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 4px 8px;
+      background: #fff
+    }
+
+    .job {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 14px 16px;
+      border-top: 1px solid var(--line)
+    }
+
+    .job:first-child {
+      border-top: 0
+    }
+
+    .job:hover {
+      background: #f8fbfc
+    }
+
+    .job .t {
+      font-weight: 600;
+      font-size: 15px
+    }
+
+    .job .t a {
+      text-decoration: none
+    }
+
+    .job .t a:hover {
+      color: var(--blue);
+      text-decoration: underline
+    }
+
+    .job .sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 2px
+    }
+
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 7px
+    }
+
+    .tag {
+      font-size: 11.5px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: #eef2f5;
+      color: #41525e
+    }
+
+    .tag.new {
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700
+    }
+
+    .tag.ng {
+      background: var(--teal-soft);
+      color: #0b7466;
+      font-weight: 600
+    }
+
+    .tag.yr {
+      background: var(--violet-soft);
+      color: var(--violet);
+      font-weight: 600
+    }
+
+    .tag.pay {
+      background: #ecfdf3;
+      color: #067647
+    }
+
+    .tag.warn {
+      background: var(--amber-soft);
+      color: var(--amber)
+    }
+
+    .tag.pref {
+      background: var(--blue-soft);
+      color: var(--blue)
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: 330px
+    }
+
+    .empty {
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--muted)
+    }
+
+    .empty b {
+      display: block;
+      color: var(--ink);
+      font-size: 16px;
+      margin-bottom: 4px
+    }
+
+    .more {
+      display: block;
+      margin: 12px auto 16px
+    }
+
+    /* tracker */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(200px, 1fr));
+      gap: 12px;
+      overflow-x: auto
+    }
+
+    .col {
+      background: #eef3f6;
+      border-radius: var(--radius);
+      padding: 10px;
+      min-height: 200px
+    }
+
+    .col h4 {
+      margin: 2px 4px 10px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      color: #41525e
+    }
+
+    .tcard {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 11px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .04)
+    }
+
+    .tcard b {
+      display: block;
+      font-size: 13.5px
+    }
+
+    .tcard .sub {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin: 2px 0 8px
+    }
+
+    .tcard select,
+    .tcard input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 4px 6px;
+      font-size: 12.5px;
+      margin-top: 4px;
+      background: #fff
+    }
+
+    .tcard .row {
+      display: flex;
+      gap: 6px;
+      align-items: center
+    }
+
+    /* forms */
+    .form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .form .card {
+      padding: 18px
+    }
+
+    .form h3 {
+      margin: 0 0 4px;
+      font-size: 15px
+    }
+
+    .form .desc {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 14px
+    }
+
+    .savebar {
+      position: sticky;
+      bottom: 0;
+      background: rgba(245, 248, 250, .94);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid var(--line);
+      padding: 12px 0;
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--ink);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+      z-index: 50;
+      max-width: 380px;
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .2s;
+      pointer-events: none
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: none
+    }
+
+    .toast.err {
+      background: var(--red)
+    }
+
+    .banner {
+      background: var(--amber-soft);
+      color: var(--amber);
+      border: 1px solid #f3dcae;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      font-size: 13.5px
+    }
+
+    @media (max-width:900px) {
+
+      .grid,
+      .form {
+        grid-template-columns: 1fr
+      }
+
+      .side {
+        position: static
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      nav .lbltxt {
+        display: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap hbar">
+      <div class="logo"><svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" fill="#1f6feb" />
+          <path d="M5 19c3 0 3-5 6-5s3 5 6 5 3-5 6-5 3 5 4 5" fill="none" stroke="#fff" stroke-width="2.6"
+            stroke-linecap="round" />
+          <path d="M5 24c3 0 3-3 6-3s3 3 6 3 3-3 6-3 3 3 4 3" fill="none" stroke="#7fe0cf" stroke-width="2"
+            stroke-linecap="round" />
+        </svg>JobWave</div>
+      <nav>
+        <button class="nav on" data-v="matches">Matches <span class="n" id="nMatches">0</span></button>
+        <button class="nav" data-v="tracker">Tracker <span class="n" id="nTracker">0</span></button>
+        <button class="nav" data-v="filters">Filters</button>
+        <button class="nav" data-v="alerts">Alerts</button>
+      </nav>
+      <div class="spacer"></div>
+      <div class="status"><span class="dot" id="dot"></span><span id="statusText">Loading…</span></div>
+      <button class="btn primary" id="checkBtn">Check now</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- MATCHES -->
+    <section class="view on" id="v-matches">
+      <div id="errBanner"></div>
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Matching roles</div>
+          <div class="v" id="sMatch">–</div>
+          <div class="s" id="sMatchS"></div>
+        </div>
+        <div class="stat">
+          <div class="k">Posted last 24h</div>
+          <div class="v" id="s24">–</div>
+          <div class="s">apply to these first</div>
+        </div>
+        <div class="stat">
+          <div class="k">New since last check</div>
+          <div class="v" id="sNew">–</div>
+          <div class="s" id="sNewS"></div>
+        </div>
+        <div class="stat">
+          <div class="k">Career pages watched</div>
+          <div class="v" id="sSrc">–</div>
+          <div class="s" id="sSrcS"></div>
+        </div>
+      </div>
+      <div class="grid">
+        <aside class="side card panel">
+          <h3>Narrow down</h3>
+          <div class="field"><input class="text" id="q" placeholder="Search title, company, skill"></div>
+          <div class="field"><span class="lbl">Role</span>
+            <div class="chips" id="famChips"></div>
+          </div>
+          <div class="field"><span class="lbl">Posted within</span>
+            <div class="chips" id="ageChips"></div>
+          </div>
+          <label class="check"><input type="checkbox" id="fPref"> Preferred locations</label>
+          <label class="check"><input type="checkbox" id="fRemote"> Remote</label>
+          <label class="check"><input type="checkbox" id="fYear"> Mentions class of&nbsp;<span
+              class="gy">2027</span></label>
+          <label class="check"><input type="checkbox" id="fPay"> Pay listed</label>
+          <label class="check"><input type="checkbox" id="fHideTracked" checked> Hide tracked roles</label>
+          <div class="hint">These only change this view. To change what triggers alerts, use <a href="#"
+              data-go="filters">Filters</a>.</div>
+        </aside>
+        <div class="card">
+          <div class="listhead"><span id="count"></span><span class="spacer"></span>Sort
+            <select id="sort">
+              <option value="new">Newest</option>
+              <option value="score">Best match</option>
+              <option value="pay">Highest pay</option>
+            </select>
+          </div>
+          <div id="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACKER -->
+    <section class="view" id="v-tracker">
+      <div class="board" id="board"></div>
+    </section>
+
+    <!-- FILTERS -->
+    <section class="view" id="v-filters">
+      <div class="form" id="form"></div>
+      <div class="savebar">
+        <button class="btn primary" id="saveBtn">Save</button>
+        <button class="btn teal" id="pushBtn">Save &amp; push to GitHub</button>
+        <span class="hint" style="margin:0">Save updates this app. Push makes the 24/7 GitHub watcher use the same
+          filters.</span>
+      </div>
+    </section>
+
+    <!-- ALERTS -->
+    <section class="view" id="v-alerts">
+      <div class="form">
+        <div class="card">
+          <h3>Phone &amp; laptop alerts</h3>
+          <p class="desc">Your private ntfy topic. Stored only on this laptop; the GitHub watcher uses its own copy in
+            repo Secrets.</p>
+          <div id="topicBox"></div>
+          <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+            <button class="btn" id="testBtn">Send test alert</button>
+            <button class="btn primary" id="demoBtn">Send 3 newest matches</button>
+          </div>
+          <div class="hint" style="margin-top:10px">Laptop alerts: open ntfy.sh/app in your browser and subscribe to the
+            same topic.</div>
+        </div>
+        <div class="card">
+          <h3>How alerts fire</h3>
+          <p class="desc">The watcher on GitHub runs every 30 minutes, even when this laptop is off.</p>
+          <div id="alertRules" style="font-size:13.5px;line-height:1.7"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const $ = s => document.querySelector(s);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const HR = 3600e3, DAY = 24 * HR;
+    const FAMS = ["Data Science", "ML / AI", "Data Engineering", "Analytics / BI", "Research"];
+    const FAM_KEYS = { data_science: "Data Science", ml_ai: "ML / AI", data_engineering: "Data Engineering", analytics: "Analytics / BI", research: "Research" };
+    const STATUSES = [["saved", "Saved"], ["applied", "Applied"], ["interviewing", "Interviewing"], ["offer", "Offer"], ["rejected", "Closed"]];
+    let S = { matches: [], meta: {}, tracker: {}, config: null };
+    let V = { q: "", fams: [], age: 7, pref: false, remote: false, year: false, pay: false, hideTracked: true, sort: "new", limit: 50 };
+    let formDirty = false;
+
+    const api = async (path, body) => {
+      const r = await fetch(path, body === undefined ? {} : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      return r.json();
+    };
+    function toast(msg, err) { const t = $("#toast"); t.textContent = msg; t.className = "toast show" + (err ? " err" : ""); clearTimeout(t._h); t._h = setTimeout(() => t.className = "toast", 3200); }
+    const ago = t => { const d = Date.now() - t; if (d < 60e3) return "just now"; if (d < HR) return Math.round(d / 60e3) + "m ago"; if (d < DAY) return Math.round(d / HR) + "h ago"; return Math.round(d / DAY) + "d ago"; };
+    const k = v => "$" + Math.round(v / 1000) + "K";
+    const pay = j => j.salary_min && j.salary_max && j.salary_min !== j.salary_max ? k(j.salary_min) + "–" + k(j.salary_max) : (j.salary_max || j.salary_min) ? k(j.salary_max || j.salary_min) : "";
+    const posted = j => (j.posted_at || 0) * 1000;
+
+    // ---------- navigation ----------
+    function go(v) {
+      document.querySelectorAll(".nav").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+      document.querySelectorAll(".view").forEach(s => s.classList.toggle("on", s.id === "v-" + v));
+      if (v === "filters" && !formDirty) drawForm();
+      if (v === "tracker") drawBoard();
+      if (v === "alerts") drawAlerts();
+      try { history.replaceState(null, "", "#" + v); } catch (e) { }
+    }
+    document.querySelectorAll(".nav").forEach(b => b.onclick = () => go(b.dataset.v));
+    document.addEventListener("click", e => { const a = e.target.closest("[data-go]"); if (a) { e.preventDefault(); go(a.dataset.go); } });
+
+    // ---------- state ----------
+    let polling = null;
+    async function load() {
+      S = await api("/api/state");
+      const m = S.meta || {};
+      $("#dot").classList.toggle("busy", S.checking);
+      $("#checkBtn").disabled = S.checking;
+      $("#checkBtn").textContent = S.checking ? "Checking…" : "Check now";
+      $("#statusText").textContent = S.checking ? `Checking ${countSources()} career pages…` : m.last_check ? "Last checked " + ago(m.last_check * 1000) : "Not checked yet";
+      $("#errBanner").innerHTML = S.error ? `<div class="banner">Last check failed: ${esc(S.error)}</div>` :
+        (m.sources_failed || []).length ? `<div class="banner">${m.sources_failed.length} career page${m.sources_failed.length > 1 ? "s" : ""} didn't respond: ${esc(m.sources_failed.slice(0, 6).join(", "))}${m.sources_failed.length > 6 ? "…" : ""}. Check the names in Filters → Companies.</div>` : "";
+      document.querySelectorAll(".gy").forEach(e => e.textContent = S.config.profile.grad_year);
+      drawStats(); drawList();
+      $("#nTracker").textContent = Object.keys(S.tracker).length;
+      if ($("#v-tracker").classList.contains("on")) drawBoard();
+      if (S.checking && !polling) polling = setInterval(async () => { const was = S.checking; await load(); if (was && !S.checking) { clearInterval(polling); polling = null; toast(`Check done: ${S.meta.matched} matches, ${S.meta.new} new.`); } }, 2000);
+    }
+    const countSources = () => { const s = S.config?.sources || {}; return ["greenhouse", "lever", "ashby", "workday", "jobright"].reduce((n, k) => n + (s[k] || []).length, 0) + (s.simplify_newgrad ? 1 : 0); };
+
+    function drawStats() {
+      const m = S.meta || {}, js = S.matches;
+      $("#sMatch").textContent = js.length;
+      $("#sMatchS").textContent = m.scanned ? `of ${m.scanned.toLocaleString()} postings scanned` : "";
+      $("#s24").textContent = js.filter(j => Date.now() - posted(j) < DAY).length;
+      $("#sNew").textContent = m.new ?? 0;
+      $("#sNewS").textContent = m.last_check ? ago(m.last_check * 1000) : "";
+      $("#sSrc").textContent = countSources();
+      $("#sSrcS").textContent = m.sources_ok !== undefined ? `${m.sources_ok} responding` : "";
+      $("#nMatches").textContent = js.length;
+    }
+
+    // ---------- matches ----------
+    function chips(el, opts, isOn, click) {
+      el.innerHTML = opts.map(([l, v]) => `<button class="chip ${isOn(v) ? "on" : ""}" data-v="${esc(v)}">${esc(l)}</button>`).join("");
+      el.onclick = e => { const b = e.target.closest(".chip"); if (b) { click(b.dataset.v); V.limit = 50; drawControls(); drawList(); } };
+    }
+    function drawControls() {
+      chips($("#famChips"), FAMS.map(f => [f, f]), v => V.fams.includes(v), v => V.fams = V.fams.includes(v) ? V.fams.filter(x => x !== v) : [...V.fams, v]);
+      chips($("#ageChips"), [["24h", 1], ["3d", 3], ["7d", 7], ["30d", 30], ["All", 9999]], v => V.age == v, v => V.age = +v);
+    }
+    [["#fPref", "pref"], ["#fRemote", "remote"], ["#fYear", "year"], ["#fPay", "pay"], ["#fHideTracked", "hideTracked"]].forEach(([id, key]) => $(id).onchange = e => { V[key] = e.target.checked; V.limit = 50; drawList(); });
+    $("#q").oninput = e => { V.q = e.target.value; V.limit = 50; drawList(); };
+    $("#sort").onchange = e => { V.sort = e.target.value; drawList(); };
+
+    function visible() {
+      let js = S.matches.filter(j => {
+        if (V.hideTracked && S.tracker[j.id]) return false;
+        if (V.fams.length && !(j.families || []).some(f => V.fams.includes(f))) return false;
+        if (Date.now() - posted(j) > V.age * DAY) return false;
+        if (V.pref && !j.preferred_location) return false;
+        if (V.remote && !j.remote) return false;
+        if (V.year && !j.class_match) return false;
+        if (V.pay && !(j.salary_min || j.salary_max)) return false;
+        if (V.q.trim()) {
+          const hay = [j.title, j.company, (j.skills || []).join(" "), (j.locations || []).join(" ")].join(" ").toLowerCase();
+          if (!V.q.toLowerCase().split(/\s+/).every(w => hay.includes(w))) return false;
+        }
+        return true;
+      });
+      const s = { new: (a, b) => posted(b) - posted(a), score: (a, b) => (b.score || 0) - (a.score || 0), pay: (a, b) => (b.salary_max || b.salary_min || 0) - (a.salary_max || a.salary_min || 0) };
+      return js.sort(s[V.sort]);
+    }
+    function row(j) {
+      const p = pay(j), t = S.tracker[j.id]?.status, locs = j.locations || [];
+      const tags = [
+        j.is_new ? `<span class="tag new">NEW</span>` : "",
+        j.level === "New grad" ? `<span class="tag ng">New grad</span>` : j.level ? `<span class="tag">${esc(j.level)}</span>` : "",
+        j.class_match ? `<span class="tag yr">Class of ${S.config.profile.grad_year}</span>` : "",
+        ...(j.families || []).map(f => `<span class="tag">${esc(f)}</span>`),
+        `<span class="tag ${j.preferred_location ? "pref" : ""}">${esc(locs.slice(0, 2).join(" · ") || "Location n/a")}${locs.length > 2 ? ` +${locs.length - 2}` : ""}</span>`,
+        p ? `<span class="tag pay">${p}</span>` : "",
+        j.sponsorship === "No sponsorship" ? `<span class="tag warn">No sponsorship</span>` : j.sponsorship ? `<span class="tag ng">${esc(j.sponsorship)}</span>` : "",
+      ].join("");
+      return `<div class="job"><div>
+      <div class="t"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></div>
+      <div class="sub">${esc(j.company)} · posted ${j.posted_at ? ago(posted(j)) : "recently"} · via ${j.source === "simplify" ? "SimplifyJobs" : esc(j.source)}</div>
+      <div class="tags">${tags}</div>
+      ${(j.skills || []).length ? `<div class="sub" style="margin-top:6px">Your skills: ${esc(j.skills.join(", "))}</div>` : ""}
+    </div><div class="actions">
+      <a class="btn sm primary" href="${esc(j.url)}" target="_blank" rel="noopener">Apply ↗</a>
+      <button class="btn sm ${t === "saved" ? "on" : ""}" data-track="${esc(j.id)}" data-s="saved">${t === "saved" ? "Saved ✓" : "Save"}</button>
+      <button class="btn sm ${t === "applied" ? "on" : ""}" data-track="${esc(j.id)}" data-s="applied">${t === "applied" ? "Applied ✓" : "Mark applied"}</button>
+      <button class="btn sm" data-push="${esc(j.id)}" title="Send this role to your phone">📱</button>
+    </div></div>`;
+    }
+    function drawList() {
+      const js = visible();
+      $("#count").textContent = js.length ? `${js.length} role${js.length > 1 ? "s" : ""}` : "";
+      $("#list").innerHTML = !S.matches.length
+        ? `<div class="empty"><b>${S.checking ? "Checking career pages…" : "No matches yet."}</b>${S.checking ? "This takes 20–60 seconds the first time." : "Click Check now."}</div>`
+        : js.length ? js.slice(0, V.limit).map(row).join("") + (js.length > V.limit ? `<button class="btn more" id="more">Show more</button>` : "")
+          : `<div class="empty"><b>Nothing matches this view.</b>Widen "Posted within" or clear a filter.</div>`;
+      const mb = $("#more"); if (mb) mb.onclick = () => { V.limit += 50; drawList(); };
+    }
+    $("#list").addEventListener("click", async e => {
+      const tb = e.target.closest("[data-track]"), pb = e.target.closest("[data-push]");
+      if (tb) {
+        const id = tb.dataset.track, s = tb.dataset.s; const cur = S.tracker[id]?.status;
+        await api("/api/track", { id, status: cur === s ? null : s });
+        toast(cur === s ? "Removed from tracker" : s === "applied" ? "Marked applied. Good luck!" : "Saved to tracker"); load();
+      }
+      if (pb) { const r = await api("/api/alert", { kind: "job", id: pb.dataset.push, count: 1 }); toast(r.msg, !r.ok); }
+    });
+    $("#checkBtn").onclick = async () => { await api("/api/check", {}); toast("Checking career pages…"); load(); };
+
+    // ---------- tracker ----------
+    function drawBoard() {
+      const items = Object.entries(S.tracker);
+      $("#board").innerHTML = STATUSES.map(([s, label]) => {
+        const cards = items.filter(([, t]) => t.status === s).sort((a, b) => b[1].updated - a[1].updated);
+        return `<div class="col"><h4>${label}<span>${cards.length}</span></h4>${cards.map(([id, t]) => `
+      <div class="tcard"><b><a href="${esc(t.job.url)}" target="_blank" rel="noopener" style="text-decoration:none">${esc(t.job.title)}</a></b>
+        <div class="sub">${esc(t.job.company)} · ${ago(t.updated * 1000)}</div>
+        <div class="row"><select data-status="${esc(id)}">${STATUSES.map(([v, l]) => `<option value="${v}" ${v === s ? "selected" : ""}>${l}</option>`).join("")}<option value="">Remove</option></select></div>
+        <input data-note="${esc(id)}" value="${esc(t.note || "")}" placeholder="Note (referral, deadline…)">
+      </div>`).join("") || `<div class="hint" style="padding:6px">${s === "saved" ? "Save roles from Matches." : "—"}</div>`}</div>`;
+      }).join("");
+    }
+    $("#board").addEventListener("change", async e => {
+      const st = e.target.closest("[data-status]"), nt = e.target.closest("[data-note]");
+      if (st) { await api("/api/track", { id: st.dataset.status, status: st.value || null }); load(); }
+      if (nt) { const id = nt.dataset.note; await api("/api/track", { id, status: S.tracker[id].status, note: nt.value }); toast("Note saved"); S.tracker[id].note = nt.value; }
+    });
+
+    // ---------- filters form ----------
+    const list = a => (a || []).join(", ");
+    const parse = s => s.split(/[,\n]/).map(x => x.trim()).filter(Boolean);
+    function drawForm() {
+      const c = S.config, f = c.filters, p = c.profile, a = c.alerts, src = c.sources, ex = (f.exclude_if || []).map(x => x.toLowerCase());
+      $("#form").innerHTML = `
+  <div class="card"><h3>Roles</h3><p class="desc">Which jobs count as a match.</p>
+    <div class="field"><span class="lbl">Role families</span>${Object.entries(FAM_KEYS).map(([key, l]) => `<label class="check"><input type="checkbox" name="fam" value="${key}" ${f.role_families.includes(key) ? "checked" : ""}> ${l}</label>`).join("")}</div>
+    <div class="two"><div class="field"><span class="lbl">Max years of experience asked</span><input class="text" type="number" min="0" max="10" id="c_yoe" value="${f.max_years_experience}"></div>
+    <div class="field"><span class="lbl">Graduation year</span><input class="text" type="number" id="c_gy" value="${p.grad_year}"></div></div>
+    <label class="check"><input type="checkbox" id="c_intern" ${f.include_internships ? "checked" : ""}> Include internships</label>
+    <label class="check"><input type="checkbox" id="c_unl" ${f.allow_unlabeled_level ? "checked" : ""}> Include roles with no level label if experience asked fits</label>
+  </div>
+  <div class="card"><h3>Location</h3><p class="desc">Leave "Only these" empty for anywhere in the US.</p>
+    <label class="check"><input type="checkbox" id="c_us" ${f.us_only ? "checked" : ""}> US only</label>
+    <label class="check"><input type="checkbox" id="c_remote" ${f.remote_only ? "checked" : ""}> Remote only</label>
+    <div class="field"><span class="lbl">Only these locations</span><input class="text" id="c_locs" value="${esc(list(f.locations))}" placeholder="e.g. TX, New York, Remote"></div>
+    <div class="field"><span class="lbl">Preferred (ranked higher)</span><input class="text" id="c_pref" value="${esc(list(f.preferred_locations))}"></div>
+  </div>
+  <div class="card"><h3>Eligibility</h3><p class="desc">Drop roles you can't or won't take.</p>
+    <div class="field"><span class="lbl">Your degrees</span>${["Bachelor's", "Master's", "PhD"].map(d => `<label class="check"><input type="checkbox" name="deg" value="${d}" ${p.degrees.includes(d) ? "checked" : ""}> ${d}</label>`).join("")}</div>
+    <label class="check"><input type="checkbox" id="c_cit" ${ex.includes("citizenship") ? "checked" : ""}> Skip roles requiring US citizenship</label>
+    <label class="check"><input type="checkbox" id="c_clr" ${ex.includes("clearance") ? "checked" : ""}> Skip roles requiring security clearance</label>
+    <label class="check"><input type="checkbox" id="c_sp" ${f.needs_sponsorship ? "checked" : ""}> I need visa sponsorship (skip roles that won't sponsor)</label>
+    <div class="field"><span class="lbl">Minimum pay (USD/yr, only when listed)</span><input class="text" type="number" step="5000" id="c_pay" value="${f.min_salary || 0}"></div>
+  </div>
+  <div class="card"><h3>Keywords &amp; skills</h3><p class="desc">Comma-separated.</p>
+    <div class="field"><span class="lbl">Title must include one of</span><input class="text" id="c_inc" value="${esc(list(f.include_keywords))}" placeholder="empty = no constraint"></div>
+    <div class="field"><span class="lbl">Skip titles containing</span><textarea class="text" id="c_exc">${esc(list(f.exclude_keywords))}</textarea></div>
+    <div class="field"><span class="lbl">Your skills (used for ranking)</span><textarea class="text" id="c_sk">${esc(list(p.skills))}</textarea></div>
+    <div class="field"><span class="lbl">Company blocklist</span><input class="text" id="c_blk" value="${esc(list(f.company_blocklist))}"></div>
+  </div>
+  <div class="card"><h3>Companies watched</h3><p class="desc">Paste any company's careers page or a job link. JobWave detects the job system and starts watching it.</p>
+    <div class="field"><div style="display:flex;gap:8px"><input class="text" id="addUrl" placeholder="https://careers.company.com or a job posting link"><button class="btn primary" id="addBtn" type="button">Add</button></div>
+      <input class="text" id="addName" placeholder="Company name (optional, for Workday sites)" style="margin-top:6px"></div>
+    <div class="field"><span class="lbl">Greenhouse (${(src.greenhouse || []).length})</span><textarea class="text" id="c_gh">${esc(list(src.greenhouse))}</textarea></div>
+    <div class="field"><span class="lbl">Lever (${(src.lever || []).length})</span><textarea class="text" id="c_lv" style="min-height:44px">${esc(list(src.lever))}</textarea></div>
+    <div class="field"><span class="lbl">Ashby (${(src.ashby || []).length})</span><textarea class="text" id="c_ab">${esc(list(src.ashby))}</textarea></div>
+    <div class="field"><span class="lbl">Workday sites (${(src.workday || []).length}) — one per line: Name | URL</span><textarea class="text" id="c_wd" wrap="off" style="min-height:110px">${esc((src.workday || []).join("\n"))}</textarea></div>
+    <div class="field"><span class="lbl">Jobright lists (github.com/jobright-ai)</span><input class="text" id="c_jr" value="${esc(list(src.jobright))}"></div>
+    <label class="check"><input type="checkbox" id="c_simp" ${src.simplify_newgrad ? "checked" : ""}> Also watch the SimplifyJobs new-grad list</label>
+  </div>
+  <div class="card"><h3>Alert behavior</h3><p class="desc">Used by the GitHub watcher.</p>
+    <div class="two"><div class="field"><span class="lbl">Only alert if posted within (hours)</span><input class="text" type="number" id="c_age" value="${a.max_age_hours}"></div>
+    <div class="field"><span class="lbl">Bundle into one digest above</span><input class="text" type="number" id="c_dig" value="${a.digest_threshold}"></div></div>
+  </div>`;
+      formDirty = false;
+      $("#form").oninput = e => { if (!["addUrl", "addName"].includes(e.target.id)) formDirty = true; };
+      $("#addBtn").onclick = async () => {
+        const url = $("#addUrl").value.trim(); if (!url) return;
+        const b = $("#addBtn"); b.disabled = true; b.textContent = "Checking…";
+        const r = await api("/api/add", { url, name: $("#addName").value });
+        b.disabled = false; b.textContent = "Add"; toast(r.msg, !r.ok);
+        if (r.ok) { S = await api("/api/state"); drawForm(); api("/api/check", {}).then(load); }
+      };
+    }
+    function readForm() {
+      const checked = n => [...document.querySelectorAll(`input[name=${n}]:checked`)].map(x => x.value);
+      const v = id => $(id).value, on = id => $(id).checked;
+      const exclude_if = [on("#c_cit") && "citizenship", on("#c_clr") && "clearance"].filter(Boolean);
+      return {
+        profile: { grad_year: +v("#c_gy"), degrees: checked("deg"), skills: parse(v("#c_sk")) },
+        filters: {
+          role_families: checked("fam"), include_internships: on("#c_intern"), max_years_experience: +v("#c_yoe"),
+          allow_unlabeled_level: on("#c_unl"), us_only: on("#c_us"), remote_only: on("#c_remote"), locations: parse(v("#c_locs")),
+          preferred_locations: parse(v("#c_pref")), exclude_if, needs_sponsorship: on("#c_sp"), min_salary: +v("#c_pay") || 0,
+          include_keywords: parse(v("#c_inc")), exclude_keywords: parse(v("#c_exc")), company_blocklist: parse(v("#c_blk"))
+        },
+        alerts: { max_age_hours: +v("#c_age"), digest_threshold: +v("#c_dig") },
+        sources: {
+          greenhouse: parse(v("#c_gh")), lever: parse(v("#c_lv")), ashby: parse(v("#c_ab")),
+          workday: v("#c_wd").split("\n").map(x => x.trim()).filter(Boolean), jobright: parse(v("#c_jr")), simplify_newgrad: on("#c_simp")
+        },
+      };
+    }
+    async function save() {
+      const body = readForm();
+      if (!body.filters.role_families.length) { toast("Pick at least one role family.", true); return false; }
+      const r = await api("/api/config", body);
+      if (!r.ok) { toast(r.msg || "Couldn't save", true); return false; }
+      formDirty = false; await api("/api/check", {}); load(); return true;
+    }
+    $("#saveBtn").onclick = async () => { if (await save()) toast("Saved. Re-checking with new filters…"); };
+    $("#pushBtn").onclick = async () => {
+      if (!(await save())) return; const b = $("#pushBtn"); b.disabled = true; b.textContent = "Pushing…";
+      const r = await api("/api/push", {}); b.disabled = false; b.textContent = "Save & push to GitHub"; toast(r.msg, !r.ok);
+    };
+
+    // ---------- alerts ----------
+    function drawAlerts() {
+      $("#topicBox").innerHTML = S.topic_from_env
+        ? `<div class="hint" style="font-size:13.5px">✓ Using <code>NTFY_TOPIC</code> from Terminal.</div>`
+        : `<div class="field"><span class="lbl">ntfy topic</span><div style="display:flex;gap:8px"><input class="text" type="password" id="topic" placeholder="${S.topic_set ? "••••••• saved (enter to replace)" : "jobwave-…"}"><button class="btn" id="topicSave">Save</button></div></div>`;
+      const ts = $("#topicSave"); if (ts) ts.onclick = async () => { await api("/api/settings", { ntfy_topic: $("#topic").value }); toast("Topic saved on this laptop"); load().then(drawAlerts); };
+      const a = S.config.alerts;
+      $("#alertRules").innerHTML = `• A role alerts once, the first time it matches.<br>• Only roles posted in the last <b>${a.max_age_hours}h</b> alert.<br>• More than <b>${a.digest_threshold}</b> at once → one digest.<br>• A career page failing ~2 hours → one heads-up.<br>• Each alert has an <b>Apply now</b> button.`;
+    }
+    $("#testBtn").onclick = async () => { const r = await api("/api/alert", { kind: "test" }); toast(r.msg, !r.ok); };
+    $("#demoBtn").onclick = async () => { const r = await api("/api/alert", { kind: "job", count: 3 }); toast(r.msg, !r.ok); };
+
+    drawControls();
+    load().then(() => { const h = location.hash.slice(1); if (["matches", "tracker", "filters", "alerts"].includes(h)) go(h); });
+    setInterval(() => { if (!S.checking) load(); }, 60e3);
+  </script>
+</body>
+
+</html>
