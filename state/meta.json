@@ -1,68 +1,72 @@
 {
- "last_run": 1794616963.709272,
- "duration_s": 20.6,
- "fetched": 18243,
- "unique": 17564,
- "matched": 433,
- "new_this_run": 0,
+ "last_run": 1794618472.6814706,
+ "duration_s": 38.0,
+ "fetched": 22547,
+ "unique": 21694,
+ "matched": 628,
+ "new_this_run": 20,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   15131
+   18762
   ],
   [
    "excluded keyword / seniority",
-   651
+   723
   ],
   [
    "not entry level",
-   336
+   363
+  ],
+  [
+   "5+",
+   232
+  ],
+  [
+   "off-target role (analyst / consulting / business)",
+   189
   ],
   [
    "degree",
    165
   ],
   [
-   "5+",
-   163
-  ],
-  [
-   "off-target role (analyst / consulting / business)",
-   160
-  ],
-  [
    "non-US",
-   135
+   140
   ],
   [
    "senior, experience not stated",
-   96
-  ],
-  [
-   "internship",
-   85
+   119
   ],
   [
    "4+",
-   76
+   105
+  ],
+  [
+   "internship",
+   88
   ],
   [
    "8+",
-   60
-  ],
-  [
-   "7+",
-   29
+   62
   ],
   [
    "6+",
-   21
+   39
+  ],
+  [
+   "7+",
+   35
+  ],
+  [
+   "clearance required",
+   18
   ],
   [
    "10+",
-   13
+   16
   ],
   [
    "PhD role",
@@ -81,22 +85,16 @@
    1
   ],
   [
-   "clearance required",
+   "9+",
    1
   ],
   [
-   "9+",
+   "class of 2025",
    1
   ]
  ],
- "sources_ok": 79,
- "sources_failed": [
-  "workday:Mastercard",
-  "workday:Intel",
-  "workday:Bank of America",
-  "workday:Fidelity",
-  "workday:PayPal"
- ],
+ "sources_ok": 85,
+ "sources_failed": [],
  "health": {
   "greenhouse:anthropic": 668,
   "greenhouse:databricks": 896,
@@ -145,21 +143,23 @@
   "greenhouse:klaviyo": 146,
   "greenhouse:fivetran": 197,
   "greenhouse:cockroachlabs": 13,
-  "greenhouse:pagerduty": 47,
+  "greenhouse:pagerduty": 46,
   "greenhouse:mercury": 79,
   "greenhouse:betterment": 28,
+  "greenhouse:spacex": 2772,
+  "greenhouse:sonyinteractiveentertainmentglobal": 228,
   "lever:palantir": 302,
   "lever:spotify": 85,
   "lever:zoox": 239,
   "lever:wealthfront": 21,
-  "ashby:openai": 838,
+  "ashby:openai": 837,
   "ashby:cohere": 121,
   "ashby:notion": 167,
   "ashby:ramp": 180,
   "ashby:perplexity": 141,
   "ashby:linear": 33,
   "ashby:replit": 30,
-  "ashby:harvey": 381,
+  "ashby:harvey": 383,
   "ashby:elevenlabs": 128,
   "ashby:mercor": 91,
   "ashby:sierra": 198,
@@ -171,16 +171,15 @@
   "ashby:supabase": 77,
   "ashby:decagon": 124,
   "ashby:writer": 45,
-  "workday:Salesforce": 130,
-  "workday:Capital One": 108,
-  "workday:Mastercard": "error",
-  "workday:Intel": "error",
-  "workday:Bank of America": "error",
-  "workday:Fidelity": "error",
-  "workday:PayPal": "error",
-  "workday:Barclays": 136,
+  "ashby:plaid": 142,
+  "ashby:snowflake": 376,
+  "workday:Salesforce": 115,
+  "workday:Capital One": 95,
+  "workday:Barclays": 131,
+  "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 751,
   "jobright:2026-Business-Analyst-New-Grad": 79,
+  "amazon:amazon.jobs": 819,
   "simplify:newgrad": 3240
  },
  "fail_streak": {
@@ -234,6 +233,8 @@
   "greenhouse:pagerduty": 0,
   "greenhouse:mercury": 0,
   "greenhouse:betterment": 0,
+  "greenhouse:spacex": 0,
+  "greenhouse:sonyinteractiveentertainmentglobal": 0,
   "lever:palantir": 0,
   "lever:spotify": 0,
   "lever:zoox": 0,
@@ -257,16 +258,15 @@
   "ashby:supabase": 0,
   "ashby:decagon": 0,
   "ashby:writer": 0,
+  "ashby:plaid": 0,
+  "ashby:snowflake": 0,
   "workday:Salesforce": 0,
   "workday:Capital One": 0,
-  "workday:Mastercard": 3,
-  "workday:Intel": 4,
-  "workday:Bank of America": 4,
-  "workday:Fidelity": 3,
-  "workday:PayPal": 4,
   "workday:Barclays": 0,
+  "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
+  "amazon:amazon.jobs": 0,
   "simplify:newgrad": 0
  }
 }
