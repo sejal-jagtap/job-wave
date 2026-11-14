@@ -1,16 +1,16 @@
 {
- "last_run": 1794683918.5299675,
- "duration_s": 30.9,
- "fetched": 22525,
- "unique": 21678,
- "matched": 622,
+ "last_run": 1794697939.4711063,
+ "duration_s": 26.2,
+ "fetched": 22500,
+ "unique": 21668,
+ "matched": 619,
  "new_this_run": 0,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   18737
+   18730
   ],
   [
    "excluded keyword / seniority",
@@ -96,7 +96,7 @@
  "sources_ok": 85,
  "sources_failed": [],
  "health": {
-  "greenhouse:anthropic": 669,
+  "greenhouse:anthropic": 670,
   "greenhouse:databricks": 896,
   "greenhouse:scaleai": 170,
   "greenhouse:stripe": 786,
@@ -113,7 +113,7 @@
   "greenhouse:reddit": 145,
   "greenhouse:discord": 26,
   "greenhouse:duolingo": 59,
-  "greenhouse:samsara": 317,
+  "greenhouse:samsara": 318,
   "greenhouse:roblox": 271,
   "greenhouse:affirm": 217,
   "greenhouse:brex": 286,
@@ -146,7 +146,7 @@
   "greenhouse:pagerduty": 46,
   "greenhouse:mercury": 79,
   "greenhouse:betterment": 28,
-  "greenhouse:spacex": 2758,
+  "greenhouse:spacex": 2759,
   "greenhouse:sonyinteractiveentertainmentglobal": 228,
   "lever:palantir": 302,
   "lever:spotify": 87,
@@ -159,7 +159,7 @@
   "ashby:perplexity": 141,
   "ashby:linear": 33,
   "ashby:replit": 30,
-  "ashby:harvey": 387,
+  "ashby:harvey": 388,
   "ashby:elevenlabs": 128,
   "ashby:mercor": 91,
   "ashby:sierra": 198,
@@ -177,10 +177,10 @@
   "workday:Capital One": 96,
   "workday:Barclays": 132,
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 720,
+  "jobright:2026-Software-Engineer-New-Grad": 706,
   "jobright:2026-Business-Analyst-New-Grad": 79,
-  "amazon:amazon.jobs": 819,
-  "simplify:newgrad": 3252
+  "amazon:amazon.jobs": 820,
+  "simplify:newgrad": 3236
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
