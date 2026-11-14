@@ -1,64 +1,174 @@
-# JobWave config — edit this file, commit, and the next run picks it up.
-
+# JobWave config (previous version saved as config.yaml.bak)
 profile:
-  grad_year: 2027                 # roles that name only other class years (2025, 2026...) are dropped
-  degrees: ["Bachelor's", "Master's"]   # PhD-only roles are dropped
-  skills: [python, sql, pytorch, tensorflow, spark, airflow, dbt, aws, azure, gcp,
-           llm, nlp, machine learning, genai, rag, tableau, power bi, snowflake, databricks]
-
+  grad_year: 2027
+  degrees:
+  - Bachelor's
+  - Master's
+  skills:
+  - python
+  - sql
+  - pytorch
+  - tensorflow
+  - spark
+  - airflow
+  - dbt
+  - aws
+  - azure
+  - gcp
+  - llm
+  - nlp
+  - machine learning
+  - genai
+  - rag
+  - tableau
+  - power bi
+  - snowflake
+  - databricks
 filters:
-  role_families: [data_science, ml_ai, data_engineering, analytics, research]
+  role_families:
+  - data_science
+  - ml_ai
+  - data_engineering
+  - analytics
+  - research
   include_internships: false
-  max_years_experience: 2         # drop if the posting asks for more (e.g. "3+ years")
-  allow_unlabeled_level: true     # company-board roles with no "new grad / entry" label pass only if YOE <= max
+  max_years_experience: 2
+  allow_unlabeled_level: true
   us_only: true
-  locations: []                   # empty = anywhere in the US; else substrings, e.g. ["TX", "Remote", "New York"]
-  preferred_locations: [Dallas, Plano, Irving, Austin, Remote]   # ranked higher, not required
+  locations: []
+  preferred_locations:
+  - Dallas
+  - Plano
+  - Irving
+  - Austin
+  - Remote
   remote_only: false
-  exclude_if: [citizenship, clearance]   # drop roles requiring US citizenship / security clearance
-  needs_sponsorship: false        # true = also drop roles that say they don't sponsor visas
-  min_salary: 0                   # USD/yr; only applied when the posting lists pay
-  include_keywords: []            # title must contain one of these (empty = no constraint)
-  exclude_keywords: [senior, staff, principal, lead, manager, director, head of, sr., sr, ii, iii, iv, "2", "3",
-                     annotator, rater, raters, labeler, tutor, trainer, teleoperator]
+  exclude_if:
+  - citizenship
+  - clearance
+  needs_sponsorship: false
+  min_salary: 0
+  include_keywords: []
+  exclude_keywords:
+  - senior
+  - staff
+  - principal
+  - lead
+  - manager
+  - director
+  - head of
+  - sr.
+  - sr
+  - ii
+  - iii
+  - iv
+  - '2'
+  - '3'
+  - annotator
+  - rater
+  - raters
+  - labeler
+  - tutor
+  - trainer
+  - teleoperator
   company_blocklist: []
-
 alerts:
-  max_age_hours: 72               # only alert on roles posted in the last N hours
-  digest_threshold: 5             # more than N new matches in one run -> one digest message
-  broken_source_after_runs: 8     # alert once if a career page fails this many checks in a row (~2h)
-  # Channels are enabled by setting secrets / env vars:
-  #   NTFY_TOPIC                      -> phone/desktop push via ntfy.sh (free, no account)
-  #   SLACK_WEBHOOK_URL / DISCORD_WEBHOOK_URL
-  #   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ALERT_EMAIL_TO  -> email
-
-
+  max_age_hours: 72
+  digest_threshold: 5
+  broken_source_after_runs: 8
 sources:
   simplify_newgrad: true
-  jobright: [2026-Software-Engineer-New-Grad, 2026-Business-Analyst-New-Grad]
-  greenhouse: [anthropic, databricks, scaleai, stripe, airbnb, robinhood, figma, datadog, mongodb,
-               cloudflare, coinbase, pinterest, instacart, lyft, reddit, discord, duolingo, samsara,
-               roblox, affirm, brex, gusto, asana, dropbox, twilio, waymo, nuro, toast, chime, block,
-               gitlab, okta, elastic, etsy, squarespace, sofi, carta, flexport, anduril, grammarly,
-               verkada, gemini, vercel, thumbtack, faire, lattice, webflow, amplitude, braze, klaviyo,
-               fivetran, dbtlabsinc, cockroachlabs, pagerduty, mercury, nerdwallet, betterment]
-  lever: [palantir, plaid, spotify, zoox, wealthfront]
-  ashby: [openai, cohere, notion, ramp, perplexity, linear, replit, harvey, elevenlabs, mercor, sierra, modal,
-          anysphere, runway, pinecone, vanta, posthog, supabase, clay, hebbia, decagon, writer]
+  jobright:
+  - 2026-Software-Engineer-New-Grad
+  - 2026-Business-Analyst-New-Grad
+  greenhouse:
+  - anthropic
+  - databricks
+  - scaleai
+  - stripe
+  - airbnb
+  - robinhood
+  - figma
+  - datadog
+  - mongodb
+  - cloudflare
+  - coinbase
+  - pinterest
+  - instacart
+  - lyft
+  - reddit
+  - discord
+  - duolingo
+  - samsara
+  - roblox
+  - affirm
+  - brex
+  - gusto
+  - asana
+  - dropbox
+  - twilio
+  - waymo
+  - nuro
+  - toast
+  - chime
+  - block
+  - gitlab
+  - okta
+  - elastic
+  - squarespace
+  - sofi
+  - carta
+  - flexport
+  - verkada
+  - gemini
+  - vercel
+  - faire
+  - lattice
+  - webflow
+  - braze
+  - klaviyo
+  - fivetran
+  - cockroachlabs
+  - pagerduty
+  - mercury
+  - betterment
+  lever:
+  - palantir
+  - spotify
+  - zoox
+  - wealthfront
+  ashby:
+  - openai
+  - cohere
+  - notion
+  - ramp
+  - perplexity
+  - linear
+  - replit
+  - harvey
+  - elevenlabs
+  - mercor
+  - sierra
+  - modal
+  - runway
+  - pinecone
+  - vanta
+  - posthog
+  - supabase
+  - decagon
+  - writer
   workday:
-    - NVIDIA | https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
-    - Salesforce | https://salesforce.wd12.myworkdayjobs.com/External_Career_Site
-    - Adobe | https://adobe.wd5.myworkdayjobs.com/external_experienced
-    - Workday | https://workday.wd5.myworkdayjobs.com/Workday
-    - Capital One | https://capitalone.wd12.myworkdayjobs.com/Capital_One
-    - Mastercard | https://mastercard.wd1.myworkdayjobs.com/CorporateCareers
-    - Walmart | https://walmart.wd5.myworkdayjobs.com/WalmartExternal
-    - Intel | https://intel.wd1.myworkdayjobs.com/External
-    - Bank of America | https://ghr.wd1.myworkdayjobs.com/Lateral-US
-    - Citi | https://citi.wd5.myworkdayjobs.com/2
-    - Fidelity | https://fmr.wd1.myworkdayjobs.com/FidelityCareers
-    - Dell | https://dell.wd1.myworkdayjobs.com/External
-    - PayPal | https://paypal.wd1.myworkdayjobs.com/jobs
-    - Toyota North America | https://toyota.wd5.myworkdayjobs.com/TMNA
-    - Barclays | https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays
-  workday_search: [data, machine learning, AI, analyst, scientist]
+  - Salesforce | https://salesforce.wd12.myworkdayjobs.com/External_Career_Site
+  - Capital One | https://capitalone.wd12.myworkdayjobs.com/Capital_One
+  - Mastercard | https://mastercard.wd1.myworkdayjobs.com/CorporateCareers
+  - Intel | https://intel.wd1.myworkdayjobs.com/External
+  - Bank of America | https://ghr.wd1.myworkdayjobs.com/Lateral-US
+  - Fidelity | https://fmr.wd1.myworkdayjobs.com/FidelityCareers
+  - PayPal | https://paypal.wd1.myworkdayjobs.com/jobs
+  - Barclays | https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays
+  workday_search:
+  - data
+  - machine learning
+  - AI
+  - analyst
+  - scientist
