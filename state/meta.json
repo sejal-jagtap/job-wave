@@ -1,16 +1,16 @@
 {
- "last_run": 1794618472.6814706,
- "duration_s": 38.0,
- "fetched": 22547,
- "unique": 21694,
- "matched": 628,
- "new_this_run": 20,
+ "last_run": 1794618859.623179,
+ "duration_s": 44.2,
+ "fetched": 22548,
+ "unique": 21695,
+ "matched": 626,
+ "new_this_run": 0,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   18762
+   18764
   ],
   [
    "excluded keyword / seniority",
@@ -74,7 +74,7 @@
   ],
   [
    "class of 2026",
-   2
+   3
   ],
   [
    "15+",
@@ -146,7 +146,7 @@
   "greenhouse:pagerduty": 46,
   "greenhouse:mercury": 79,
   "greenhouse:betterment": 28,
-  "greenhouse:spacex": 2772,
+  "greenhouse:spacex": 2771,
   "greenhouse:sonyinteractiveentertainmentglobal": 228,
   "lever:palantir": 302,
   "lever:spotify": 85,
@@ -159,7 +159,7 @@
   "ashby:perplexity": 141,
   "ashby:linear": 33,
   "ashby:replit": 30,
-  "ashby:harvey": 383,
+  "ashby:harvey": 384,
   "ashby:elevenlabs": 128,
   "ashby:mercor": 91,
   "ashby:sierra": 198,
@@ -179,7 +179,7 @@
   "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 751,
   "jobright:2026-Business-Analyst-New-Grad": 79,
-  "amazon:amazon.jobs": 819,
+  "amazon:amazon.jobs": 820,
   "simplify:newgrad": 3240
  },
  "fail_streak": {
