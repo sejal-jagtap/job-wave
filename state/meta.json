@@ -1,56 +1,60 @@
 {
- "last_run": 1794616273.4046233,
- "duration_s": 20.6,
- "fetched": 18485,
- "unique": 17802,
- "matched": 509,
- "new_this_run": 0,
+ "last_run": 1794616579.044748,
+ "duration_s": 23.2,
+ "fetched": 18244,
+ "unique": 17567,
+ "matched": 379,
+ "new_this_run": 1,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   14997
+   14824
   ],
   [
    "excluded keyword / seniority",
-   1217
+   972
+  ],
+  [
+   "off-target role (analyst / consulting / business)",
+   429
   ],
   [
    "not entry level",
-   364
+   342
   ],
   [
    "degree",
-   167
+   164
   ],
   [
    "non-US",
-   165
+   112
   ],
   [
    "5+",
-   94
+   87
   ],
   [
    "internship",
-   90
+   85
   ],
   [
    "3+",
-   55
-  ],
-  [
-   "4+",
    43
   ],
   [
+   "4+",
+   40
+  ],
+  [
    "8+",
-   38
+   35
   ],
   [
    "7+",
-   21
+   20
   ],
   [
    "10+",
@@ -58,7 +62,7 @@
   ],
   [
    "6+",
-   13
+   8
   ],
   [
    "PhD role",
@@ -81,22 +85,16 @@
    1
   ],
   [
-   "13+",
-   1
-  ],
-  [
    "9+",
-   1
-  ],
-  [
-   "US citizenship required",
    1
   ]
  ],
- "sources_ok": 81,
+ "sources_ok": 79,
  "sources_failed": [
+  "workday:Mastercard",
   "workday:Intel",
   "workday:Bank of America",
+  "workday:Fidelity",
   "workday:PayPal"
  ],
  "health": {
@@ -173,12 +171,12 @@
   "ashby:supabase": 77,
   "ashby:decagon": 124,
   "ashby:writer": 45,
-  "workday:Salesforce": 131,
+  "workday:Salesforce": 130,
   "workday:Capital One": 108,
-  "workday:Mastercard": 137,
+  "workday:Mastercard": "error",
   "workday:Intel": "error",
   "workday:Bank of America": "error",
-  "workday:Fidelity": 103,
+  "workday:Fidelity": "error",
   "workday:PayPal": "error",
   "workday:Barclays": 136,
   "jobright:2026-Software-Engineer-New-Grad": 753,
@@ -261,11 +259,11 @@
   "ashby:writer": 0,
   "workday:Salesforce": 0,
   "workday:Capital One": 0,
-  "workday:Mastercard": 0,
-  "workday:Intel": 1,
-  "workday:Bank of America": 1,
-  "workday:Fidelity": 0,
-  "workday:PayPal": 1,
+  "workday:Mastercard": 1,
+  "workday:Intel": 2,
+  "workday:Bank of America": 2,
+  "workday:Fidelity": 1,
+  "workday:PayPal": 2,
   "workday:Barclays": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
