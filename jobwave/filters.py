@@ -5,11 +5,13 @@ import re
 import time
 
 FAMILIES = {
-    "data_science": r"data scien|decision scien|statistician|quantitative research",
-    "ml_ai": r"\b(machine learning|ml|ai|artificial intelligence|deep learning|llm|genai|generative|nlp|"
-             r"computer vision|mlops|ai/ml|ml/ai)\b",
-    "data_engineering": r"data engineer|analytics engineer|data platform|\betl\b|data infrastructure|"
-                        r"data warehouse|big data",
+    "data_science": r"data scien|decision scien|applied scien|research scien|statistician|quantitative research",
+    "ml_ai": r"\b(machine learning|ml|ai|a\.i\.|artificial intelligence|deep learning|llms?|genai|gen ai|generative|"
+             r"nlp|natural language|computer vision|mlops|ai/ml|ml/ai|conversational ai|large language|"
+             r"foundation models?|reinforcement learning|speech recognition)\b|research engineer",
+    "data_engineering": r"data engineer|analytics engineer|data platform|\betl\b|\belt\b|data infrastructure|"
+                        r"data warehouse|big data|data pipeline|data integration engineer|dataops|database engineer",
+    # Not in your default role_families; add them back in config.yaml or the app if you want them.
     "analytics": r"data analy|business intelligence|\bbi\b|\banalytics\b|insights analyst|product analyst|"
                  r"marketing science|quantitative analyst|business analyst",
     "research": r"research (engineer|scientist)|applied scien",
@@ -20,6 +22,10 @@ FAMILY_LABEL = {"data_science": "Data Science", "ml_ai": "ML / AI", "data_engine
 ENTRY = re.compile(r"new grad|new graduate|graduate|entry[- ]level|early[- ]career|university|campus|junior|"
                    r"\bjr\b|associate|\b(i|1)\b|level 1|20(26|27|28)|rotational|recent grad|residency|fellow",
                    re.I)
+# Titles that signal an experienced (non-entry) role. Allowed only when the posting asks <= experienced.max_years.
+EXPERIENCED_TITLE = re.compile(r"\b(senior|sr\.?|ii|iii|2|3|mid[- ]level|experienced)\b", re.I)
+# A title must name a core DS / DE / ML role; otherwise "AI Analyst", "Consultant - GenAI" etc. are dropped.
+CORE_ROLE = re.compile(r"scien|engineer|machine learning|\bml\b|developer|researcher", re.I)
 INTERN = re.compile(r"\bintern(ship)?\b|co-?op\b", re.I)
 PHD_ONLY = re.compile(r"\bph\.?d\b", re.I)
 YOE = re.compile(r"(?:minimum of |at least )?(\d{1,2})\s*(?:\+|plus)?\s*(?:(?:-|–|to)\s*\d{1,2}\s*)?\+?\s*"
@@ -64,7 +70,8 @@ def is_us(loc: str) -> bool:
 def families(j: dict) -> list[str]:
     text = f"{j['title']} {j.get('team', '')}"
     fams = [f for f, rx in FAMILIES.items() if re.search(rx, text, re.I)]
-    if re.search(r"\b(gis|cad|clinical|structural|mechanical|electrical|hardware)\b", j["title"], re.I) \
+    if re.search(r"\b(gis|cad|clinical|structural|mechanical|electrical|hardware|soc|asic|rtl|fpga|silicon|"
+                 r"microarchitecture|tapeout|firmware|trader)\b", j["title"], re.I) \
             and not re.search(r"data scien|machine learning|\bml\b", j["title"], re.I):
         return []  # adjacent fields that keyword-match but aren't Data/AI roles
     return fams
@@ -105,6 +112,10 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
         return False, "role family", enr
     enr["families"] = [FAMILY_LABEL[x] for x in fams]
 
+    off = _kw_regex(f.get("off_target_words"))
+    if off and off.search(title) and not CORE_ROLE.search(title):
+        return False, "off-target role (analyst / consulting / business)", enr
+
     bad = _kw_regex(f.get("exclude_keywords"))
     if bad and bad.search(title):
         return False, "excluded keyword / seniority", enr
@@ -121,11 +132,29 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
     labeled_entry = j["source"] in ("simplify", "jobright") or bool(ENTRY.search(title))
     yoe = min_yoe(desc)
     enr["yoe"] = yoe
-    if yoe is not None and yoe > f["max_years_experience"]:
-        return False, f"{yoe}+ yrs experience", enr
-    if not labeled_entry and not (f.get("allow_unlabeled_level") and yoe is not None):
-        return False, "not entry level", enr
-    enr["level"] = "New grad" if labeled_entry else f"{yoe}+ yrs"
+    exp = f.get("experienced") or {}
+    exp_on, exp_max = bool(exp.get("enabled")), exp.get("max_years", 4)
+    new_max = f["max_years_experience"]
+
+    if EXPERIENCED_TITLE.search(title) and not re.search(r"new grad|graduate|university|early career", title, re.I):
+        # Senior / Level II-III roles: only if the posting itself asks for few enough years.
+        if not exp_on:
+            return False, "senior / level II+", enr
+        if yoe is None:
+            return False, "senior, experience not stated", enr
+        if yoe > exp_max:
+            return False, f"{yoe}+ yrs experience", enr
+        if exp.get("role_families") and not set(exp["role_families"]) & {k for k, v in FAMILY_LABEL.items() if v in enr["families"]}:
+            return False, "role family (experienced)", enr
+        enr["level"] = f"Experienced · {yoe}+ yrs"
+        labeled_entry = False
+    else:
+        cap = exp_max if exp_on else new_max
+        if yoe is not None and yoe > cap:
+            return False, f"{yoe}+ yrs experience", enr
+        if not labeled_entry and not (f.get("allow_unlabeled_level") and yoe is not None):
+            return False, "not entry level", enr
+        enr["level"] = ("New grad" if labeled_entry or yoe <= new_max else f"Experienced · {yoe}+ yrs")
 
     years = grad_years(j)
     gy = p["grad_year"]
@@ -155,10 +184,10 @@ def evaluate(j: dict, cfg: dict) -> tuple[bool, str, dict]:
         return False, "US citizenship required", enr
     if "clearance" in ex and CLEARANCE.search(full):
         return False, "clearance required", enr
-    if f.get("needs_sponsorship") and (NO_SPONSOR.search(full) or "does not offer" in spons or "citizenship" in spons):
+    if f.get("needs_sponsorship") and (NO_SPONSOR.search(desc) or "does not offer" in spons or "citizenship" in spons):
         return False, "no sponsorship", enr
     enr["sponsorship"] = ("Offers sponsorship" if "offers" in spons else
-                          "No sponsorship" if (NO_SPONSOR.search(full) or "does not offer" in spons) else "")
+                          "No sponsorship" if (NO_SPONSOR.search(desc) or "does not offer" in spons) else "")
 
     smin, smax = salary(j)
     enr["salary_min"], enr["salary_max"] = smin, smax

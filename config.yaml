@@ -71,6 +71,9 @@ filters:
   - tutor
   - trainer
   - teleoperator
+  off_target_words: [analyst, analytics, consultant, consulting, specialist, business, marketing, sales,
+                        operations, product manager, product management, tax, finance, financial, accounting,
+                        support, deployment, coordinator, administrator]
   company_blocklist: []
 alerts:
   max_age_hours: 72

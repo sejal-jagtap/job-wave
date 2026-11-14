@@ -115,3 +115,31 @@ def test_detect_board():
     assert detect_board("https://capitalone.wd12.myworkdayjobs.com/en-US/Capital_One/job/x", fetch=False) == \
         ("workday", "https://capitalone.wd12.myworkdayjobs.com/en-US/Capital_One")
     assert detect_board("https://example.com/careers", fetch=False) is None
+
+
+def test_experienced_track():
+    base = dict(source="greenhouse", company="A", url="", locations=["Dallas, TX"], remote=False,
+                posted_at=NOW, team="", employment_type="", degrees=[], sponsorship="", category="")
+    ev = lambda title, desc: evaluate({**base, "title": title, "description": desc}, CFG)
+    ok, _, enr = ev("Senior Data Engineer", "3+ years of experience building pipelines in Spark")
+    assert ok and enr["level"] == "Experienced · 3+ yrs"
+    assert ev("Data Scientist II", "Bachelor's with 4 years of experience or Master's with 2 years of experience")[0]
+    assert not ev("Senior Data Engineer", "6+ years of experience")[0]          # asks too much
+    assert not ev("Senior Data Scientist", "")[0]                               # experience not stated
+    assert not ev("Staff Machine Learning Engineer", "3+ years of experience")[0]
+    assert not ev("Data Engineering Manager", "2+ years of experience")[0]
+    ok, _, enr = ev("Data Engineer", "3-5 years of experience with Airflow")    # unlabeled mid-level
+    assert ok and enr["level"].startswith("Experienced")
+    ok, _, enr = ev("Machine Learning Engineer", "1+ years of experience")
+    assert ok and enr["level"] == "New grad"
+
+
+def test_off_target_titles():
+    base = dict(source="jobright", company="A", url="", locations=["Dallas, TX"], remote=False, posted_at=NOW,
+                team="", employment_type="new-grad", degrees=[], sponsorship="", category="", description="")
+    ok = lambda t: evaluate({**base, "title": t}, CFG)[0]
+    assert not ok("Business Analyst - AI & Automation")
+    assert not ok("Associate Consultant - Generative AI")
+    assert not ok("Marketing Analyst")
+    assert ok("Media and Marketing Data Scientist")      # core role present -> kept
+    assert ok("Machine Learning Engineer New Grad - E-Commerce User Growth")

@@ -45,7 +45,7 @@ def facts(j) -> str:
 
 
 def tags(j) -> str:
-    parts = list(j.get("families") or [])
+    parts = ([j["level"]] if j.get("level") else []) + list(j.get("families") or [])
     if j.get("class_match"):
         parts.append("mentions 2027")
     if j.get("sponsorship"):

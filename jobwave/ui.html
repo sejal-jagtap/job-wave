@@ -630,6 +630,201 @@
       font-size: 13.5px
     }
 
+    /* live alerts */
+    .bell {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      color: var(--ink)
+    }
+
+    .bell:hover {
+      background: #f0f4f7
+    }
+
+    .bell .badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      min-width: 19px;
+      height: 19px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: var(--red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: grid;
+      place-items: center
+    }
+
+    .bell .badge[hidden] {
+      display: none
+    }
+
+    .bell.ring svg {
+      animation: ring .8s ease-in-out 2
+    }
+
+    @keyframes ring {
+
+      0%,
+      100% {
+        transform: rotate(0)
+      }
+
+      20% {
+        transform: rotate(14deg)
+      }
+
+      40% {
+        transform: rotate(-12deg)
+      }
+
+      60% {
+        transform: rotate(8deg)
+      }
+
+      80% {
+        transform: rotate(-4deg)
+      }
+    }
+
+    .inbox {
+      position: fixed;
+      top: 70px;
+      right: 22px;
+      width: 380px;
+      max-height: 70vh;
+      overflow: auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(20, 35, 47, .18);
+      z-index: 40;
+      display: none
+    }
+
+    .inbox.open {
+      display: block
+    }
+
+    .inbox h4 {
+      margin: 0;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .inbox h4 span {
+      font-weight: 500;
+      color: var(--muted);
+      font-size: 12.5px
+    }
+
+    .nitem {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .nitem:last-child {
+      border-bottom: 0
+    }
+
+    .nitem b {
+      display: block;
+      font-size: 14px
+    }
+
+    .nitem .m {
+      font-size: 12.5px;
+      color: var(--muted);
+      white-space: pre-line;
+      margin: 3px 0 8px
+    }
+
+    .nitem .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .nitem.unread {
+      background: #f5f9ff
+    }
+
+    .pops {
+      position: fixed;
+      top: 76px;
+      right: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 45;
+      width: 370px
+    }
+
+    .pop {
+      background: #fff;
+      border: 1px solid #cfe0fc;
+      border-left: 4px solid var(--blue);
+      border-radius: 12px;
+      box-shadow: 0 14px 40px rgba(20, 35, 47, .18);
+      padding: 14px 16px;
+      animation: popin .35s cubic-bezier(.2, .9, .3, 1.2)
+    }
+
+    @keyframes popin {
+      from {
+        transform: translateX(30px);
+        opacity: 0
+      }
+
+      to {
+        transform: none;
+        opacity: 1
+      }
+    }
+
+    .pop .h {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 4px
+    }
+
+    .pop b {
+      display: block;
+      font-size: 15px
+    }
+
+    .pop .m {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: pre-line;
+      margin: 4px 0 10px
+    }
+
+    .pop .a {
+      display: flex;
+      gap: 8px
+    }
+
     @media (max-width:900px) {
 
       .grid,
@@ -670,9 +865,22 @@
       </nav>
       <div class="spacer"></div>
       <div class="status"><span class="dot" id="dot"></span><span id="statusText">Loading…</span></div>
+      <button class="bell" id="bellBtn" aria-label="Recent alerts" title="Recent alerts">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+        </svg>
+        <span class="badge" id="bellBadge" hidden>0</span>
+      </button>
       <button class="btn primary" id="checkBtn">Check now</button>
     </div>
   </header>
+  <div class="inbox" id="inbox">
+    <h4>Alerts <span id="liveState">connecting…</span></h4>
+    <div id="inboxList"></div>
+  </div>
+  <div class="pops" id="pops"></div>
 
   <main class="wrap">
     <!-- MATCHES -->
@@ -706,6 +914,9 @@
           <div class="field"><input class="text" id="q" placeholder="Search title, company, skill"></div>
           <div class="field"><span class="lbl">Role</span>
             <div class="chips" id="famChips"></div>
+          </div>
+          <div class="field"><span class="lbl">Level</span>
+            <div class="chips" id="lvlChips"></div>
           </div>
           <div class="field"><span class="lbl">Posted within</span>
             <div class="chips" id="ageChips"></div>
@@ -760,8 +971,8 @@
             <button class="btn" id="testBtn">Send test alert</button>
             <button class="btn primary" id="demoBtn">Send 3 newest matches</button>
           </div>
-          <div class="hint" style="margin-top:10px">Laptop alerts: open ntfy.sh/app in your browser and subscribe to the
-            same topic.</div>
+          <div class="hint" style="margin-top:10px">While this app is open, new alerts also pop up here (top right) and
+            collect under the 🔔.</div>
         </div>
         <div class="card">
           <h3>How alerts fire</h3>
@@ -781,7 +992,7 @@
     const FAM_KEYS = { data_science: "Data Science", ml_ai: "ML / AI", data_engineering: "Data Engineering", analytics: "Analytics / BI", research: "Research" };
     const STATUSES = [["saved", "Saved"], ["applied", "Applied"], ["interviewing", "Interviewing"], ["offer", "Offer"], ["rejected", "Closed"]];
     let S = { matches: [], meta: {}, tracker: {}, config: null };
-    let V = { q: "", fams: [], age: 7, pref: false, remote: false, year: false, pay: false, hideTracked: true, sort: "new", limit: 50 };
+    let V = { q: "", lvl: "all", fams: [], age: 7, pref: false, remote: false, year: false, pay: false, hideTracked: true, sort: "new", limit: 50 };
     let formDirty = false;
 
     const api = async (path, body) => {
@@ -844,6 +1055,7 @@
     }
     function drawControls() {
       chips($("#famChips"), FAMS.map(f => [f, f]), v => V.fams.includes(v), v => V.fams = V.fams.includes(v) ? V.fams.filter(x => x !== v) : [...V.fams, v]);
+      chips($("#lvlChips"), [["All", "all"], ["New grad", "new"], ["Experienced", "exp"]], v => V.lvl === v, v => V.lvl = v);
       chips($("#ageChips"), [["24h", 1], ["3d", 3], ["7d", 7], ["30d", 30], ["All", 9999]], v => V.age == v, v => V.age = +v);
     }
     [["#fPref", "pref"], ["#fRemote", "remote"], ["#fYear", "year"], ["#fPay", "pay"], ["#fHideTracked", "hideTracked"]].forEach(([id, key]) => $(id).onchange = e => { V[key] = e.target.checked; V.limit = 50; drawList(); });
@@ -854,6 +1066,8 @@
       let js = S.matches.filter(j => {
         if (V.hideTracked && S.tracker[j.id]) return false;
         if (V.fams.length && !(j.families || []).some(f => V.fams.includes(f))) return false;
+        if (V.lvl === "new" && j.level !== "New grad") return false;
+        if (V.lvl === "exp" && !(j.level || "").startsWith("Experienced")) return false;
         if (Date.now() - posted(j) > V.age * DAY) return false;
         if (V.pref && !j.preferred_location) return false;
         if (V.remote && !j.remote) return false;
@@ -872,7 +1086,7 @@
       const p = pay(j), t = S.tracker[j.id]?.status, locs = j.locations || [];
       const tags = [
         j.is_new ? `<span class="tag new">NEW</span>` : "",
-        j.level === "New grad" ? `<span class="tag ng">New grad</span>` : j.level ? `<span class="tag">${esc(j.level)}</span>` : "",
+        j.level === "New grad" ? `<span class="tag ng">New grad</span>` : j.level ? `<span class="tag yr">${esc(j.level)}</span>` : "",
         j.class_match ? `<span class="tag yr">Class of ${S.config.profile.grad_year}</span>` : "",
         ...(j.families || []).map(f => `<span class="tag">${esc(f)}</span>`),
         `<span class="tag ${j.preferred_location ? "pref" : ""}">${esc(locs.slice(0, 2).join(" · ") || "Location n/a")}${locs.length > 2 ? ` +${locs.length - 2}` : ""}</span>`,
@@ -881,7 +1095,7 @@
       ].join("");
       return `<div class="job"><div>
       <div class="t"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></div>
-      <div class="sub">${esc(j.company)} · posted ${j.posted_at ? ago(posted(j)) : "recently"} · via ${j.source === "simplify" ? "SimplifyJobs" : esc(j.source)}</div>
+      <div class="sub">${esc(j.company)} · posted ${j.posted_at ? ago(posted(j)) : "recently"} · via ${({ simplify: "SimplifyJobs", jobright: "Jobright", greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby", workday: "Workday" })[j.source] || esc(j.source)}</div>
       <div class="tags">${tags}</div>
       ${(j.skills || []).length ? `<div class="sub" style="margin-top:6px">Your skills: ${esc(j.skills.join(", "))}</div>` : ""}
     </div><div class="actions">
@@ -938,8 +1152,10 @@
       $("#form").innerHTML = `
   <div class="card"><h3>Roles</h3><p class="desc">Which jobs count as a match.</p>
     <div class="field"><span class="lbl">Role families</span>${Object.entries(FAM_KEYS).map(([key, l]) => `<label class="check"><input type="checkbox" name="fam" value="${key}" ${f.role_families.includes(key) ? "checked" : ""}> ${l}</label>`).join("")}</div>
-    <div class="two"><div class="field"><span class="lbl">Max years of experience asked</span><input class="text" type="number" min="0" max="10" id="c_yoe" value="${f.max_years_experience}"></div>
+    <div class="two"><div class="field"><span class="lbl">Max years for entry-level roles</span><input class="text" type="number" min="0" max="10" id="c_yoe" value="${f.max_years_experience}"></div>
     <div class="field"><span class="lbl">Graduation year</span><input class="text" type="number" id="c_gy" value="${p.grad_year}"></div></div>
+    <label class="check"><input type="checkbox" id="c_exp" ${(f.experienced || {}).enabled ? "checked" : ""}> Also include Senior / Level II roles that ask for ≤
+      <input class="text" type="number" min="1" max="10" id="c_expy" value="${(f.experienced || {}).max_years ?? 4}" style="width:58px;padding:3px 6px;display:inline-block"> years</label>
     <label class="check"><input type="checkbox" id="c_intern" ${f.include_internships ? "checked" : ""}> Include internships</label>
     <label class="check"><input type="checkbox" id="c_unl" ${f.allow_unlabeled_level ? "checked" : ""}> Include roles with no level label if experience asked fits</label>
   </div>
@@ -987,6 +1203,7 @@
       };
     }
     function readForm() {
+      const f0 = S.config.filters;
       const checked = n => [...document.querySelectorAll(`input[name=${n}]:checked`)].map(x => x.value);
       const v = id => $(id).value, on = id => $(id).checked;
       const exclude_if = [on("#c_cit") && "citizenship", on("#c_clr") && "clearance"].filter(Boolean);
@@ -994,7 +1211,8 @@
         profile: { grad_year: +v("#c_gy"), degrees: checked("deg"), skills: parse(v("#c_sk")) },
         filters: {
           role_families: checked("fam"), include_internships: on("#c_intern"), max_years_experience: +v("#c_yoe"),
-          allow_unlabeled_level: on("#c_unl"), us_only: on("#c_us"), remote_only: on("#c_remote"), locations: parse(v("#c_locs")),
+          allow_unlabeled_level: on("#c_unl"),
+          experienced: Object.assign({}, f0.experienced || {}, { enabled: on("#c_exp"), max_years: +v("#c_expy") || 4 }), us_only: on("#c_us"), remote_only: on("#c_remote"), locations: parse(v("#c_locs")),
           preferred_locations: parse(v("#c_pref")), exclude_if, needs_sponsorship: on("#c_sp"), min_salary: +v("#c_pay") || 0,
           include_keywords: parse(v("#c_inc")), exclude_keywords: parse(v("#c_exc")), company_blocklist: parse(v("#c_blk"))
         },
@@ -1023,15 +1241,63 @@
       $("#topicBox").innerHTML = S.topic_from_env
         ? `<div class="hint" style="font-size:13.5px">✓ Using <code>NTFY_TOPIC</code> from Terminal.</div>`
         : `<div class="field"><span class="lbl">ntfy topic</span><div style="display:flex;gap:8px"><input class="text" type="password" id="topic" placeholder="${S.topic_set ? "••••••• saved (enter to replace)" : "jobwave-…"}"><button class="btn" id="topicSave">Save</button></div></div>`;
-      const ts = $("#topicSave"); if (ts) ts.onclick = async () => { await api("/api/settings", { ntfy_topic: $("#topic").value }); toast("Topic saved on this laptop"); load().then(drawAlerts); };
+      const ts = $("#topicSave"); if (ts) ts.onclick = async () => { await api("/api/settings", { ntfy_topic: $("#topic").value }); toast("Topic saved on this laptop"); load().then(() => { drawAlerts(); startLive(); }); };
       const a = S.config.alerts;
       $("#alertRules").innerHTML = `• A role alerts once, the first time it matches.<br>• Only roles posted in the last <b>${a.max_age_hours}h</b> alert.<br>• More than <b>${a.digest_threshold}</b> at once → one digest.<br>• A career page failing ~2 hours → one heads-up.<br>• Each alert has an <b>Apply now</b> button.`;
     }
     $("#testBtn").onclick = async () => { const r = await api("/api/alert", { kind: "test" }); toast(r.msg, !r.ok); };
     $("#demoBtn").onclick = async () => { const r = await api("/api/alert", { kind: "job", count: 3 }); toast(r.msg, !r.ok); };
 
+    // ---------- live alerts (same ntfy topic as your phone) ----------
+    let NOTES = [], unread = 0, es = null, liveTopic = "";
+    function noteFromNtfy(m) {
+      const view = (m.actions || []).find(a => a.action === "view");
+      return { id: m.id, time: m.time * 1000, title: m.title || "JobWave", message: m.message || "", url: (view && view.url) || m.click || "" };
+    }
+    function drawInbox() {
+      $("#bellBadge").hidden = unread === 0; $("#bellBadge").textContent = unread;
+      $("#inboxList").innerHTML = NOTES.length ? NOTES.map(n => `<div class="nitem ${n.unread ? "unread" : ""}">
+      <b>${esc(n.title)}</b><div class="m">${esc(n.message)}</div>
+      <div class="row"><span>${ago(n.time)}</span>${n.url ? `<a class="btn sm primary" href="${esc(n.url)}" target="_blank" rel="noopener">Apply now ↗</a>` : ""}</div></div>`).join("")
+        : `<div class="empty" style="padding:30px 16px"><b>No alerts in the last 24h</b>New matches will pop up here.</div>`;
+    }
+    function popup(n) {
+      const el = document.createElement("div"); el.className = "pop";
+      el.innerHTML = `<div class="h">🔔 New alert · just now</div><b>${esc(n.title)}</b><div class="m">${esc(n.message)}</div>
+    <div class="a">${n.url ? `<a class="btn sm primary" href="${esc(n.url)}" target="_blank" rel="noopener">Apply now ↗</a>` : ""}<button class="btn sm" data-x>Dismiss</button></div>`;
+      el.querySelector("[data-x]").onclick = () => el.remove();
+      $("#pops").prepend(el);
+      while ($("#pops").children.length > 3) $("#pops").lastChild.remove();
+      setTimeout(() => el.remove(), 15000);
+      const b = $("#bellBtn"); b.classList.remove("ring"); void b.offsetWidth; b.classList.add("ring");
+    }
+    async function startLive() {
+      if (!S.topic || S.topic === liveTopic) return;
+      liveTopic = S.topic; if (es) es.close();
+      const base = `${S.ntfy_server.replace(/\/$/, "")}/${encodeURIComponent(S.topic)}`;
+      try {   // last 24h of alerts for the inbox
+        const txt = await (await fetch(`${base}/json?poll=1&since=24h`)).text();
+        NOTES = txt.trim().split("\n").filter(Boolean).map(l => JSON.parse(l)).filter(m => m.event === "message").map(noteFromNtfy).reverse();
+      } catch (e) { }
+      drawInbox();
+      es = new EventSource(`${base}/sse`);
+      es.onopen = () => $("#liveState").textContent = "● live";
+      es.onerror = () => $("#liveState").textContent = "reconnecting…";
+      es.onmessage = e => {
+        let m; try { m = JSON.parse(e.data); } catch (_) { return; }
+        if (m.event !== "message" || NOTES.some(n => n.id === m.id)) return;
+        const n = Object.assign(noteFromNtfy(m), { unread: true });
+        NOTES.unshift(n); unread++; drawInbox(); popup(n);
+      };
+    }
+    $("#bellBtn").onclick = e => {
+      e.stopPropagation(); $("#inbox").classList.toggle("open");
+      if ($("#inbox").classList.contains("open")) { $("#pops").innerHTML = ""; unread = 0; setTimeout(() => { NOTES.forEach(n => n.unread = false); drawInbox(); }, 1500); drawInbox(); }
+    };
+    document.addEventListener("click", e => { if (!e.target.closest("#inbox")) $("#inbox").classList.remove("open"); });
+
     drawControls();
-    load().then(() => { const h = location.hash.slice(1); if (["matches", "tracker", "filters", "alerts"].includes(h)) go(h); });
+    load().then(() => { startLive(); const h = location.hash.slice(1); if (["matches", "tracker", "filters", "alerts"].includes(h)) go(h); });
     setInterval(() => { if (!S.checking) load(); }, 60e3);
   </script>
 </body>
