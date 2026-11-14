@@ -1,72 +1,72 @@
 {
- "last_run": 1794616579.044748,
- "duration_s": 23.2,
- "fetched": 18244,
- "unique": 17567,
- "matched": 379,
- "new_this_run": 1,
+ "last_run": 1794616732.5804393,
+ "duration_s": 24.9,
+ "fetched": 18242,
+ "unique": 17563,
+ "matched": 489,
+ "new_this_run": 5,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   14824
+   15130
   ],
   [
    "excluded keyword / seniority",
-   972
-  ],
-  [
-   "off-target role (analyst / consulting / business)",
-   429
+   651
   ],
   [
    "not entry level",
-   342
+   336
   ],
   [
    "degree",
-   164
-  ],
-  [
-   "non-US",
-   112
+   165
   ],
   [
    "5+",
-   87
+   163
+  ],
+  [
+   "off-target role (analyst / consulting / business)",
+   160
+  ],
+  [
+   "non-US",
+   154
+  ],
+  [
+   "senior, experience not stated",
+   96
   ],
   [
    "internship",
    85
   ],
   [
-   "3+",
-   43
-  ],
-  [
-   "4+",
-   40
-  ],
-  [
    "8+",
-   35
+   60
   ],
   [
    "7+",
-   20
-  ],
-  [
-   "10+",
-   18
+   29
   ],
   [
    "6+",
-   8
+   21
+  ],
+  [
+   "10+",
+   13
   ],
   [
    "PhD role",
-   3
+   4
+  ],
+  [
+   "clearance required",
+   2
   ],
   [
    "class of 2026",
@@ -78,10 +78,6 @@
   ],
   [
    "11+",
-   1
-  ],
-  [
-   "clearance required",
    1
   ],
   [
@@ -179,7 +175,7 @@
   "workday:Fidelity": "error",
   "workday:PayPal": "error",
   "workday:Barclays": 136,
-  "jobright:2026-Software-Engineer-New-Grad": 753,
+  "jobright:2026-Software-Engineer-New-Grad": 751,
   "jobright:2026-Business-Analyst-New-Grad": 78,
   "simplify:newgrad": 3240
  },
@@ -259,11 +255,11 @@
   "ashby:writer": 0,
   "workday:Salesforce": 0,
   "workday:Capital One": 0,
-  "workday:Mastercard": 1,
-  "workday:Intel": 2,
-  "workday:Bank of America": 2,
-  "workday:Fidelity": 1,
-  "workday:PayPal": 2,
+  "workday:Mastercard": 2,
+  "workday:Intel": 3,
+  "workday:Bank of America": 3,
+  "workday:Fidelity": 2,
+  "workday:PayPal": 3,
   "workday:Barclays": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
