@@ -3,7 +3,13 @@ name: JobWave watch
 on:
   schedule:
     - cron: "*/30 * * * *"     # every 30 min: ~1,440 min/month, inside GitHub Free (2,000). With GitHub Pro use */20.
-  workflow_dispatch: {}          # "Run workflow" button
+  workflow_dispatch:              # "Run workflow" button
+    inputs:
+      mode:
+        description: "watch = normal check · demo = alert on the 3 newest matches now (for recording)"
+        type: choice
+        options: [watch, demo]
+        default: watch
   push:
     paths: [config.yaml, "jobwave/**"]
 
@@ -21,14 +27,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
       - name: Check job boards and send alerts
-        run: python -m jobwave run
+        run: |
+          if [ "${{ inputs.mode }}" = "demo" ]; then python -m jobwave demo --count 3; else python -m jobwave run; fi
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -39,11 +46,16 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
       - name: Save seen-jobs state
+        if: ${{ inputs.mode != 'demo' }}
         run: |
           git config user.name "jobwave-bot"
           git config user.email "jobwave-bot@users.noreply.github.com"
           git add state
-          if ! git diff --cached --quiet; then
-            git commit -q -m "jobwave: check $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull -q --rebase && git push -q
-          fi
+          git diff --cached --quiet && exit 0
+          git commit -q -m "jobwave: check $(date -u +%Y-%m-%dT%H:%MZ)"
+          # If state/ changed on GitHub meanwhile, keep this run's (newest) version of state/.
+          for i in 1 2 3; do
+            git pull -q --rebase -X theirs && git push -q && exit 0
+            git rebase --abort 2>/dev/null; sleep 5
+          done
+          echo "Could not save state after 3 tries"; exit 1
