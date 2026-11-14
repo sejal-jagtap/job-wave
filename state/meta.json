@@ -1,20 +1,20 @@
 {
- "last_run": 1794680948.2338836,
- "duration_s": 22.1,
- "fetched": 22526,
- "unique": 21680,
+ "last_run": 1794683918.5299675,
+ "duration_s": 30.9,
+ "fetched": 22525,
+ "unique": 21678,
  "matched": 622,
- "new_this_run": 1,
+ "new_this_run": 0,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   18738
+   18737
   ],
   [
    "excluded keyword / seniority",
-   729
+   728
   ],
   [
    "not entry level",
@@ -113,7 +113,7 @@
   "greenhouse:reddit": 145,
   "greenhouse:discord": 26,
   "greenhouse:duolingo": 59,
-  "greenhouse:samsara": 318,
+  "greenhouse:samsara": 317,
   "greenhouse:roblox": 271,
   "greenhouse:affirm": 217,
   "greenhouse:brex": 286,
@@ -173,11 +173,11 @@
   "ashby:writer": 45,
   "ashby:plaid": 142,
   "ashby:snowflake": 376,
-  "workday:Salesforce": 115,
+  "workday:Salesforce": 114,
   "workday:Capital One": 96,
-  "workday:Barclays": 133,
+  "workday:Barclays": 132,
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 718,
+  "jobright:2026-Software-Engineer-New-Grad": 720,
   "jobright:2026-Business-Analyst-New-Grad": 79,
   "amazon:amazon.jobs": 819,
   "simplify:newgrad": 3252
