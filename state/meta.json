@@ -1,8 +1,8 @@
 {
- "last_run": 1794697939.4711063,
- "duration_s": 26.2,
- "fetched": 22500,
- "unique": 21668,
+ "last_run": 1794711223.9585173,
+ "duration_s": 24.0,
+ "fetched": 22488,
+ "unique": 21665,
  "matched": 619,
  "new_this_run": 0,
  "first_run": false,
@@ -10,7 +10,7 @@
  "rejections": [
   [
    "role family",
-   18730
+   18728
   ],
   [
    "excluded keyword / seniority",
@@ -22,7 +22,7 @@
   ],
   [
    "5+",
-   232
+   231
   ],
   [
    "off-target role (analyst / consulting / business)",
@@ -99,7 +99,7 @@
   "greenhouse:anthropic": 670,
   "greenhouse:databricks": 896,
   "greenhouse:scaleai": 170,
-  "greenhouse:stripe": 786,
+  "greenhouse:stripe": 785,
   "greenhouse:airbnb": 214,
   "greenhouse:robinhood": 165,
   "greenhouse:figma": 139,
@@ -113,14 +113,14 @@
   "greenhouse:reddit": 145,
   "greenhouse:discord": 26,
   "greenhouse:duolingo": 59,
-  "greenhouse:samsara": 318,
+  "greenhouse:samsara": 319,
   "greenhouse:roblox": 271,
   "greenhouse:affirm": 217,
   "greenhouse:brex": 286,
   "greenhouse:gusto": 75,
   "greenhouse:asana": 109,
   "greenhouse:dropbox": 44,
-  "greenhouse:twilio": 115,
+  "greenhouse:twilio": 114,
   "greenhouse:waymo": 373,
   "greenhouse:nuro": 100,
   "greenhouse:toast": 355,
@@ -146,7 +146,7 @@
   "greenhouse:pagerduty": 46,
   "greenhouse:mercury": 79,
   "greenhouse:betterment": 28,
-  "greenhouse:spacex": 2759,
+  "greenhouse:spacex": 2756,
   "greenhouse:sonyinteractiveentertainmentglobal": 228,
   "lever:palantir": 302,
   "lever:spotify": 87,
@@ -177,10 +177,10 @@
   "workday:Capital One": 96,
   "workday:Barclays": 132,
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 706,
+  "jobright:2026-Software-Engineer-New-Grad": 693,
   "jobright:2026-Business-Analyst-New-Grad": 79,
   "amazon:amazon.jobs": 820,
-  "simplify:newgrad": 3236
+  "simplify:newgrad": 3241
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
