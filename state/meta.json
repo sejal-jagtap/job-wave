@@ -1,52 +1,52 @@
 {
- "last_run": 1794912817.7092986,
- "duration_s": 31.7,
- "fetched": 21272,
- "unique": 20508,
- "matched": 609,
- "new_this_run": 4,
+ "last_run": 1794943665.4972336,
+ "duration_s": 28.0,
+ "fetched": 21902,
+ "unique": 21133,
+ "matched": 605,
+ "new_this_run": 6,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   17739
+   18300
   ],
   [
    "excluded keyword / seniority",
-   677
+   698
   ],
   [
    "not entry level",
-   313
+   339
   ],
   [
    "5+",
-   233
+   234
   ],
   [
    "off-target role (analyst / consulting / business)",
-   176
+   182
   ],
   [
    "degree",
-   167
+   165
   ],
   [
    "non-US",
-   126
-  ],
-  [
-   "4+",
-   104
+   128
   ],
   [
    "senior, experience not stated",
-   99
+   112
+  ],
+  [
+   "4+",
+   101
   ],
   [
    "internship",
-   81
+   85
   ],
   [
    "8+",
@@ -74,7 +74,11 @@
   ],
   [
    "class of 2026",
-   4
+   3
+  ],
+  [
+   "9+",
+   2
   ],
   [
    "15+",
@@ -85,110 +89,102 @@
    1
   ],
   [
-   "9+",
-   1
-  ],
-  [
    "class of 2025",
    1
   ]
  ],
- "sources_ok": 78,
+ "sources_ok": 82,
  "sources_failed": [
-  "lever:palantir",
-  "lever:spotify",
-  "lever:zoox",
-  "lever:wealthfront",
   "workday:Salesforce",
   "workday:Capital One",
   "workday:Barclays"
  ],
  "health": {
   "greenhouse:anthropic": 660,
-  "greenhouse:databricks": 891,
-  "greenhouse:scaleai": 169,
+  "greenhouse:databricks": 902,
+  "greenhouse:scaleai": 167,
   "greenhouse:stripe": 793,
-  "greenhouse:airbnb": 205,
-  "greenhouse:robinhood": 166,
-  "greenhouse:figma": 140,
+  "greenhouse:airbnb": 201,
+  "greenhouse:robinhood": 167,
+  "greenhouse:figma": 141,
   "greenhouse:datadog": 380,
-  "greenhouse:mongodb": 399,
-  "greenhouse:cloudflare": 473,
-  "greenhouse:coinbase": 259,
-  "greenhouse:pinterest": 167,
+  "greenhouse:mongodb": 394,
+  "greenhouse:cloudflare": 475,
+  "greenhouse:coinbase": 260,
+  "greenhouse:pinterest": 171,
   "greenhouse:instacart": 83,
-  "greenhouse:lyft": 144,
+  "greenhouse:lyft": 141,
   "greenhouse:reddit": 148,
   "greenhouse:discord": 25,
   "greenhouse:duolingo": 59,
-  "greenhouse:samsara": 314,
-  "greenhouse:roblox": 265,
-  "greenhouse:affirm": 213,
-  "greenhouse:brex": 277,
-  "greenhouse:gusto": 78,
-  "greenhouse:asana": 113,
+  "greenhouse:samsara": 312,
+  "greenhouse:roblox": 267,
+  "greenhouse:affirm": 220,
+  "greenhouse:brex": 274,
+  "greenhouse:gusto": 80,
+  "greenhouse:asana": 114,
   "greenhouse:dropbox": 41,
-  "greenhouse:twilio": 115,
-  "greenhouse:waymo": 369,
-  "greenhouse:nuro": 101,
-  "greenhouse:toast": 331,
+  "greenhouse:twilio": 110,
+  "greenhouse:waymo": 370,
+  "greenhouse:nuro": 102,
+  "greenhouse:toast": 321,
   "greenhouse:chime": 74,
-  "greenhouse:block": 185,
-  "greenhouse:gitlab": 253,
-  "greenhouse:okta": 358,
-  "greenhouse:elastic": 382,
+  "greenhouse:block": 188,
+  "greenhouse:gitlab": 254,
+  "greenhouse:okta": 359,
+  "greenhouse:elastic": 381,
   "greenhouse:squarespace": 17,
-  "greenhouse:sofi": 50,
+  "greenhouse:sofi": 49,
   "greenhouse:carta": 78,
-  "greenhouse:flexport": 203,
-  "greenhouse:verkada": 347,
+  "greenhouse:flexport": 206,
+  "greenhouse:verkada": 346,
   "greenhouse:gemini": 26,
-  "greenhouse:vercel": 87,
-  "greenhouse:faire": 70,
-  "greenhouse:lattice": 4,
+  "greenhouse:vercel": 88,
+  "greenhouse:faire": 71,
+  "greenhouse:lattice": 6,
   "greenhouse:webflow": 0,
   "greenhouse:braze": 335,
   "greenhouse:klaviyo": 141,
-  "greenhouse:fivetran": 186,
+  "greenhouse:fivetran": 189,
   "greenhouse:cockroachlabs": 13,
   "greenhouse:pagerduty": 46,
-  "greenhouse:mercury": 76,
+  "greenhouse:mercury": 75,
   "greenhouse:betterment": 25,
-  "greenhouse:spacex": 2799,
+  "greenhouse:spacex": 2798,
   "greenhouse:sonyinteractiveentertainmentglobal": 229,
-  "lever:palantir": "error",
-  "lever:spotify": "error",
-  "lever:zoox": "error",
-  "lever:wealthfront": "error",
-  "ashby:openai": 840,
-  "ashby:cohere": 125,
+  "lever:palantir": 301,
+  "lever:spotify": 87,
+  "lever:zoox": 238,
+  "lever:wealthfront": 21,
+  "ashby:openai": 836,
+  "ashby:cohere": 127,
   "ashby:notion": 164,
-  "ashby:ramp": 179,
+  "ashby:ramp": 180,
   "ashby:perplexity": 148,
   "ashby:linear": 33,
-  "ashby:replit": 31,
-  "ashby:harvey": 386,
-  "ashby:elevenlabs": 122,
+  "ashby:replit": 32,
+  "ashby:harvey": 387,
+  "ashby:elevenlabs": 126,
   "ashby:mercor": 105,
-  "ashby:sierra": 197,
+  "ashby:sierra": 196,
   "ashby:modal": 50,
   "ashby:runway": 3,
   "ashby:pinecone": 6,
-  "ashby:vanta": 80,
+  "ashby:vanta": 79,
   "ashby:posthog": 10,
   "ashby:supabase": 77,
-  "ashby:decagon": 118,
-  "ashby:writer": 45,
-  "ashby:plaid": 140,
+  "ashby:decagon": 113,
+  "ashby:writer": 46,
+  "ashby:plaid": 141,
   "ashby:snowflake": 378,
   "workday:Salesforce": "error",
   "workday:Capital One": "error",
   "workday:Barclays": "error",
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 603,
-  "jobright:2026-Business-Analyst-New-Grad": 73,
-  "amazon:amazon.jobs": 831,
-  "simplify:newgrad": 3166
+  "jobright:2026-Software-Engineer-New-Grad": 612,
+  "jobright:2026-Business-Analyst-New-Grad": 69,
+  "amazon:amazon.jobs": 818,
+  "simplify:newgrad": 3147
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
@@ -243,10 +239,10 @@
   "greenhouse:betterment": 0,
   "greenhouse:spacex": 0,
   "greenhouse:sonyinteractiveentertainmentglobal": 0,
-  "lever:palantir": 1,
-  "lever:spotify": 1,
-  "lever:zoox": 1,
-  "lever:wealthfront": 1,
+  "lever:palantir": 0,
+  "lever:spotify": 0,
+  "lever:zoox": 0,
+  "lever:wealthfront": 0,
   "ashby:openai": 0,
   "ashby:cohere": 0,
   "ashby:notion": 0,
@@ -268,9 +264,9 @@
   "ashby:writer": 0,
   "ashby:plaid": 0,
   "ashby:snowflake": 0,
-  "workday:Salesforce": 5,
-  "workday:Capital One": 5,
-  "workday:Barclays": 4,
+  "workday:Salesforce": 6,
+  "workday:Capital One": 6,
+  "workday:Barclays": 5,
   "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
