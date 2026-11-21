@@ -1,16 +1,16 @@
 {
- "last_run": 1795282844.7354841,
- "duration_s": 22.0,
- "fetched": 22026,
- "unique": 21208,
- "matched": 599,
+ "last_run": 1795300230.141242,
+ "duration_s": 27.2,
+ "fetched": 22048,
+ "unique": 21228,
+ "matched": 600,
  "new_this_run": 0,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   18378
+   18396
   ],
   [
    "excluded keyword / seniority",
@@ -18,15 +18,15 @@
   ],
   [
    "not entry level",
-   339
+   341
   ],
   [
    "5+",
-   223
+   222
   ],
   [
    "off-target role (analyst / consulting / business)",
-   188
+   189
   ],
   [
    "degree",
@@ -34,7 +34,7 @@
   ],
   [
    "non-US",
-   125
+   124
   ],
   [
    "senior, experience not stated",
@@ -101,15 +101,15 @@
  ],
  "health": {
   "greenhouse:anthropic": 635,
-  "greenhouse:databricks": 896,
-  "greenhouse:scaleai": 169,
+  "greenhouse:databricks": 895,
+  "greenhouse:scaleai": 166,
   "greenhouse:stripe": 778,
   "greenhouse:airbnb": 202,
   "greenhouse:robinhood": 163,
   "greenhouse:figma": 147,
   "greenhouse:datadog": 382,
   "greenhouse:mongodb": 417,
-  "greenhouse:cloudflare": 503,
+  "greenhouse:cloudflare": 504,
   "greenhouse:coinbase": 252,
   "greenhouse:pinterest": 174,
   "greenhouse:instacart": 92,
@@ -150,7 +150,7 @@
   "greenhouse:pagerduty": 48,
   "greenhouse:mercury": 70,
   "greenhouse:betterment": 26,
-  "greenhouse:spacex": 2824,
+  "greenhouse:spacex": 2845,
   "greenhouse:sonyinteractiveentertainmentglobal": 215,
   "lever:palantir": 308,
   "lever:spotify": 91,
@@ -163,7 +163,7 @@
   "ashby:perplexity": 151,
   "ashby:linear": 32,
   "ashby:replit": 38,
-  "ashby:harvey": 388,
+  "ashby:harvey": 390,
   "ashby:elevenlabs": 121,
   "ashby:mercor": 109,
   "ashby:sierra": 194,
@@ -181,10 +181,10 @@
   "workday:Capital One": "error",
   "workday:Barclays": "error",
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 681,
+  "jobright:2026-Software-Engineer-New-Grad": 689,
   "jobright:2026-Business-Analyst-New-Grad": 80,
   "amazon:amazon.jobs": 814,
-  "simplify:newgrad": 3131
+  "simplify:newgrad": 3125
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
@@ -264,9 +264,9 @@
   "ashby:writer": 0,
   "ashby:plaid": 0,
   "ashby:snowflake": 0,
-  "workday:Salesforce": 19,
-  "workday:Capital One": 19,
-  "workday:Barclays": 18,
+  "workday:Salesforce": 20,
+  "workday:Capital One": 20,
+  "workday:Barclays": 19,
   "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
