@@ -1,24 +1,24 @@
 {
- "last_run": 1795343191.306962,
- "duration_s": 20.5,
- "fetched": 22036,
- "unique": 21204,
- "matched": 599,
+ "last_run": 1795370206.8322248,
+ "duration_s": 21.9,
+ "fetched": 22030,
+ "unique": 21195,
+ "matched": 600,
  "new_this_run": 0,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   18373
+   18365
   ],
   [
    "excluded keyword / seniority",
-   712
+   711
   ],
   [
    "not entry level",
-   341
+   340
   ],
   [
    "5+",
@@ -100,8 +100,8 @@
   "workday:Barclays"
  ],
  "health": {
-  "greenhouse:anthropic": 635,
-  "greenhouse:databricks": 895,
+  "greenhouse:anthropic": 633,
+  "greenhouse:databricks": 893,
   "greenhouse:scaleai": 166,
   "greenhouse:stripe": 777,
   "greenhouse:airbnb": 202,
@@ -127,11 +127,11 @@
   "greenhouse:twilio": 109,
   "greenhouse:waymo": 363,
   "greenhouse:nuro": 105,
-  "greenhouse:toast": 325,
+  "greenhouse:toast": 324,
   "greenhouse:chime": 80,
   "greenhouse:block": 184,
   "greenhouse:gitlab": 246,
-  "greenhouse:okta": 374,
+  "greenhouse:okta": 373,
   "greenhouse:elastic": 382,
   "greenhouse:squarespace": 20,
   "greenhouse:sofi": 53,
@@ -181,10 +181,10 @@
   "workday:Capital One": "error",
   "workday:Barclays": "error",
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 669,
-  "jobright:2026-Business-Analyst-New-Grad": 79,
-  "amazon:amazon.jobs": 823,
-  "simplify:newgrad": 3128
+  "jobright:2026-Software-Engineer-New-Grad": 670,
+  "jobright:2026-Business-Analyst-New-Grad": 75,
+  "amazon:amazon.jobs": 822,
+  "simplify:newgrad": 3132
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
@@ -264,9 +264,9 @@
   "ashby:writer": 0,
   "ashby:plaid": 0,
   "ashby:snowflake": 0,
-  "workday:Salesforce": 22,
-  "workday:Capital One": 22,
-  "workday:Barclays": 21,
+  "workday:Salesforce": 23,
+  "workday:Capital One": 23,
+  "workday:Barclays": 22,
   "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
