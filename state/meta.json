@@ -1,16 +1,16 @@
 {
- "last_run": 1795580598.1593382,
- "duration_s": 25.6,
- "fetched": 21865,
- "unique": 21100,
- "matched": 584,
- "new_this_run": 5,
+ "last_run": 1795617703.2362008,
+ "duration_s": 21.5,
+ "fetched": 21831,
+ "unique": 21071,
+ "matched": 585,
+ "new_this_run": 1,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   18290
+   18265
   ],
   [
    "excluded keyword / seniority",
@@ -18,7 +18,7 @@
   ],
   [
    "not entry level",
-   338
+   337
   ],
   [
    "5+",
@@ -26,15 +26,15 @@
   ],
   [
    "off-target role (analyst / consulting / business)",
-   194
+   193
   ],
   [
    "degree",
-   156
+   155
   ],
   [
    "senior, experience not stated",
-   132
+   133
   ],
   [
    "non-US",
@@ -42,7 +42,7 @@
   ],
   [
    "4+",
-   99
+   98
   ],
   [
    "internship",
@@ -54,7 +54,7 @@
   ],
   [
    "6+",
-   44
+   42
   ],
   [
    "7+",
@@ -101,51 +101,51 @@
  ],
  "health": {
   "greenhouse:anthropic": 636,
-  "greenhouse:databricks": 889,
+  "greenhouse:databricks": 876,
   "greenhouse:scaleai": 157,
   "greenhouse:stripe": 771,
   "greenhouse:airbnb": 200,
   "greenhouse:robinhood": 162,
   "greenhouse:figma": 146,
   "greenhouse:datadog": 388,
-  "greenhouse:mongodb": 419,
-  "greenhouse:cloudflare": 513,
-  "greenhouse:coinbase": 247,
-  "greenhouse:pinterest": 169,
+  "greenhouse:mongodb": 420,
+  "greenhouse:cloudflare": 516,
+  "greenhouse:coinbase": 246,
+  "greenhouse:pinterest": 167,
   "greenhouse:instacart": 98,
   "greenhouse:lyft": 144,
   "greenhouse:reddit": 149,
   "greenhouse:discord": 29,
   "greenhouse:duolingo": 53,
-  "greenhouse:samsara": 289,
+  "greenhouse:samsara": 295,
   "greenhouse:roblox": 255,
   "greenhouse:affirm": 215,
   "greenhouse:brex": 261,
-  "greenhouse:gusto": 85,
-  "greenhouse:asana": 110,
+  "greenhouse:gusto": 86,
+  "greenhouse:asana": 111,
   "greenhouse:dropbox": 49,
-  "greenhouse:twilio": 115,
+  "greenhouse:twilio": 112,
   "greenhouse:waymo": 358,
   "greenhouse:nuro": 108,
-  "greenhouse:toast": 299,
+  "greenhouse:toast": 300,
   "greenhouse:chime": 78,
-  "greenhouse:block": 183,
-  "greenhouse:gitlab": 249,
-  "greenhouse:okta": 372,
-  "greenhouse:elastic": 389,
+  "greenhouse:block": 182,
+  "greenhouse:gitlab": 247,
+  "greenhouse:okta": 369,
+  "greenhouse:elastic": 390,
   "greenhouse:squarespace": 20,
-  "greenhouse:sofi": 57,
+  "greenhouse:sofi": 56,
   "greenhouse:carta": 81,
-  "greenhouse:flexport": 210,
+  "greenhouse:flexport": 211,
   "greenhouse:verkada": 352,
   "greenhouse:gemini": 24,
   "greenhouse:vercel": 86,
   "greenhouse:faire": 72,
   "greenhouse:lattice": 4,
   "greenhouse:webflow": 0,
-  "greenhouse:braze": 349,
+  "greenhouse:braze": 350,
   "greenhouse:klaviyo": 120,
-  "greenhouse:fivetran": 207,
+  "greenhouse:fivetran": 210,
   "greenhouse:cockroachlabs": 11,
   "greenhouse:pagerduty": 49,
   "greenhouse:mercury": 70,
@@ -157,22 +157,22 @@
   "lever:zoox": 247,
   "lever:wealthfront": 19,
   "ashby:openai": 877,
-  "ashby:cohere": 123,
-  "ashby:notion": 172,
+  "ashby:cohere": 122,
+  "ashby:notion": 173,
   "ashby:ramp": 182,
   "ashby:perplexity": 151,
   "ashby:linear": 30,
   "ashby:replit": 37,
-  "ashby:harvey": 394,
+  "ashby:harvey": 389,
   "ashby:elevenlabs": 117,
   "ashby:mercor": 108,
-  "ashby:sierra": 203,
+  "ashby:sierra": 204,
   "ashby:modal": 52,
   "ashby:runway": 3,
   "ashby:pinecone": 8,
   "ashby:vanta": 61,
-  "ashby:posthog": 10,
-  "ashby:supabase": 80,
+  "ashby:posthog": 9,
+  "ashby:supabase": 81,
   "ashby:decagon": 105,
   "ashby:writer": 45,
   "ashby:plaid": 145,
@@ -181,10 +181,10 @@
   "workday:Capital One": "error",
   "workday:Barclays": "error",
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 611,
-  "jobright:2026-Business-Analyst-New-Grad": 68,
-  "amazon:amazon.jobs": 792,
-  "simplify:newgrad": 3077
+  "jobright:2026-Software-Engineer-New-Grad": 602,
+  "jobright:2026-Business-Analyst-New-Grad": 58,
+  "amazon:amazon.jobs": 793,
+  "simplify:newgrad": 3072
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
@@ -264,9 +264,9 @@
   "ashby:writer": 0,
   "ashby:plaid": 0,
   "ashby:snowflake": 0,
-  "workday:Salesforce": 30,
-  "workday:Capital One": 30,
-  "workday:Barclays": 29,
+  "workday:Salesforce": 31,
+  "workday:Capital One": 31,
+  "workday:Barclays": 30,
   "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
