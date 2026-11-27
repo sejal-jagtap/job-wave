@@ -1,16 +1,16 @@
 {
- "last_run": 1795737428.4198089,
- "duration_s": 19.4,
- "fetched": 21817,
- "unique": 21049,
- "matched": 559,
+ "last_run": 1795759115.652537,
+ "duration_s": 26.1,
+ "fetched": 21786,
+ "unique": 21019,
+ "matched": 558,
  "new_this_run": 0,
  "first_run": false,
  "alert_channels": [],
  "rejections": [
   [
    "role family",
-   18291
+   18261
   ],
   [
    "excluded keyword / seniority",
@@ -22,15 +22,15 @@
   ],
   [
    "5+",
-   212
+   213
   ],
   [
    "off-target role (analyst / consulting / business)",
-   193
+   191
   ],
   [
    "degree",
-   149
+   150
   ],
   [
    "senior, experience not stated",
@@ -38,7 +38,7 @@
   ],
   [
    "non-US",
-   116
+   117
   ],
   [
    "4+",
@@ -101,15 +101,15 @@
  ],
  "health": {
   "greenhouse:anthropic": 634,
-  "greenhouse:databricks": 882,
+  "greenhouse:databricks": 880,
   "greenhouse:scaleai": 158,
-  "greenhouse:stripe": 768,
+  "greenhouse:stripe": 767,
   "greenhouse:airbnb": 202,
-  "greenhouse:robinhood": 162,
+  "greenhouse:robinhood": 161,
   "greenhouse:figma": 141,
-  "greenhouse:datadog": 392,
+  "greenhouse:datadog": 390,
   "greenhouse:mongodb": 421,
-  "greenhouse:cloudflare": 528,
+  "greenhouse:cloudflare": 530,
   "greenhouse:coinbase": 256,
   "greenhouse:pinterest": 167,
   "greenhouse:instacart": 97,
@@ -117,27 +117,27 @@
   "greenhouse:reddit": 149,
   "greenhouse:discord": 30,
   "greenhouse:duolingo": 54,
-  "greenhouse:samsara": 300,
+  "greenhouse:samsara": 298,
   "greenhouse:roblox": 255,
   "greenhouse:affirm": 216,
   "greenhouse:brex": 266,
   "greenhouse:gusto": 86,
   "greenhouse:asana": 107,
   "greenhouse:dropbox": 51,
-  "greenhouse:twilio": 113,
+  "greenhouse:twilio": 112,
   "greenhouse:waymo": 356,
   "greenhouse:nuro": 106,
-  "greenhouse:toast": 300,
+  "greenhouse:toast": 301,
   "greenhouse:chime": 77,
   "greenhouse:block": 183,
-  "greenhouse:gitlab": 242,
-  "greenhouse:okta": 360,
+  "greenhouse:gitlab": 243,
+  "greenhouse:okta": 361,
   "greenhouse:elastic": 375,
   "greenhouse:squarespace": 20,
   "greenhouse:sofi": 58,
   "greenhouse:carta": 81,
-  "greenhouse:flexport": 212,
-  "greenhouse:verkada": 350,
+  "greenhouse:flexport": 211,
+  "greenhouse:verkada": 349,
   "greenhouse:gemini": 22,
   "greenhouse:vercel": 86,
   "greenhouse:faire": 73,
@@ -163,8 +163,8 @@
   "ashby:perplexity": 150,
   "ashby:linear": 30,
   "ashby:replit": 38,
-  "ashby:harvey": 391,
-  "ashby:elevenlabs": 112,
+  "ashby:harvey": 390,
+  "ashby:elevenlabs": 108,
   "ashby:mercor": 108,
   "ashby:sierra": 203,
   "ashby:modal": 53,
@@ -176,15 +176,15 @@
   "ashby:decagon": 101,
   "ashby:writer": 45,
   "ashby:plaid": 144,
-  "ashby:snowflake": 376,
+  "ashby:snowflake": 378,
   "workday:Salesforce": "error",
   "workday:Capital One": "error",
   "workday:Barclays": "error",
   "smartrecruiters:Visa": 0,
-  "jobright:2026-Software-Engineer-New-Grad": 569,
-  "jobright:2026-Business-Analyst-New-Grad": 51,
-  "amazon:amazon.jobs": 802,
-  "simplify:newgrad": 3053
+  "jobright:2026-Software-Engineer-New-Grad": 554,
+  "jobright:2026-Business-Analyst-New-Grad": 47,
+  "amazon:amazon.jobs": 801,
+  "simplify:newgrad": 3051
  },
  "fail_streak": {
   "greenhouse:anthropic": 0,
@@ -264,9 +264,9 @@
   "ashby:writer": 0,
   "ashby:plaid": 0,
   "ashby:snowflake": 0,
-  "workday:Salesforce": 35,
-  "workday:Capital One": 35,
-  "workday:Barclays": 34,
+  "workday:Salesforce": 36,
+  "workday:Capital One": 36,
+  "workday:Barclays": 35,
   "smartrecruiters:Visa": 0,
   "jobright:2026-Software-Engineer-New-Grad": 0,
   "jobright:2026-Business-Analyst-New-Grad": 0,
